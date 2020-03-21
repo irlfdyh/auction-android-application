@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">AuctionApplication</string>
+
+    <!-- Nav Drawer or Menu title -->
+    <string name="stuff_list_string">Daftar Barang</string>
+    <string name="officer_list_string">Daftar Petugas</string>
+    <string name="category_list">Daftar Kategori</string>
+
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="category_list_string">Kategori Barang</string>
+
+
+    <string name="display_type">For %s</string>
+    <string name="display_price_monthly_rental">Rp.%,.0f/month</string>
+    <string name="display_price">Rp.%,.0f</string>
+
 </resources>

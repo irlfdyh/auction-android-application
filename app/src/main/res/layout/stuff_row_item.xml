@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="stuff"
+            type="com.production.auctionapplication.networking.Stuff"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/small_spacing"
+        android:elevation="2dp">
+
+        <ImageView
+            android:id="@+id/stuff_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/spinner_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:src="@drawable/spinner_image"/>
+
+        <TextView
+            android:id="@+id/stuff_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_spacing"
+            android:textAppearance="@style/TextAppearance.Name"
+            android:text="@{stuff.stuffName}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/stuff_image"
+            tools:text="Fidget Spinner"/>
+
+        <TextView
+            android:id="@+id/stuff_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/normal_spacing"
+            android:textColor="@android:color/holo_red_light"
+            android:text="@{stuff.status}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="Dilelang"/>
+
+        <TextView
+            android:id="@+id/stuff_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_spacing"
+            android:textAppearance="@style/TextAppearance.Status"
+            android:text="Rp.50.000"
+            app:layout_constraintStart_toEndOf="@id/stuff_image"
+            app:layout_constraintTop_toBottomOf="@id/stuff_name"
+            tools:text="Rp.50.000"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

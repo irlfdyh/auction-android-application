@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/stuffFragment"
+        android:title="@string/stuff_list_string"/>
+
+    <item
+        android:id="@+id/openedAuction"
+        android:title="Opened Auction"/>
+
+    <item
+        android:id="@+id/closedAuction"
+        android:title="Closed Auction"/>
+
+</menu>

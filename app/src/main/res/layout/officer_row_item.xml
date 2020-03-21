@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="officer"
+            type="com.production.auctionapplication.networking.Officer" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/officerImage"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/officerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:textAppearance="@style/TextAppearance.Name"
+            android:text="@{officer.officerName}"
+            app:layout_constraintStart_toEndOf="@id/officerImage"
+            app:layout_constraintTop_toTopOf="@id/officerImage" />
+
+        <TextView
+            android:id="@+id/officerStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="6dp"
+            android:textAppearance="@style/TextAppearance.Status"
+            android:text="@{officer.status}"
+            app:layout_constraintStart_toEndOf="@id/officerImage"
+            app:layout_constraintTop_toBottomOf="@id/officerName"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
