@@ -7,7 +7,9 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "officer_account_data")
 data class OfficerAccountData (
 
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
+    var id: Long = 0L,
+    @ColumnInfo(name = "user_id")
     val userId: Int?,
     @ColumnInfo(name = "officer_id")
     val officerId: Int?,
@@ -19,5 +21,7 @@ data class OfficerAccountData (
     var officerName: String?,
     @ColumnInfo(name = "status")
     var status: String?
+
+
 
 )

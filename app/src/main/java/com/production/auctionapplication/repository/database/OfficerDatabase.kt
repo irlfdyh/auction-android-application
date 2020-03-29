@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import timber.log.Timber
 
-@Database(entities = [OfficerAccountData::class], version = 1, exportSchema = false)
+@Database(entities = [OfficerAccountData::class], version = 2, exportSchema = false)
 abstract class OfficerDatabase : RoomDatabase() {
 
     abstract val officerDatabaseDao: OfficerDatabaseDao

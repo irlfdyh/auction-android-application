@@ -8,6 +8,7 @@ import com.production.auctionapplication.repository.database.OfficerDatabase
 import com.production.auctionapplication.repository.networking.AuctionApi
 import kotlinx.coroutines.*
 import timber.log.Timber
+import java.io.IOException
 
 class SigninViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -70,14 +71,16 @@ class SigninViewModel(application: Application) : AndroidViewModel(application) 
                     //
                     checkLoginStatus()
 
+                    // Logging
+                    Timber.i(response.toString())
+
                     // insert response data to database according to the
                     // condition at this function
                     insertOfficerData(response)
-
-                    // Logging
-                    Timber.i(response.toString())
                 } catch (e: Exception) {
                     Timber.e(e.message.toString(), "Exception")
+                } catch (io: IOException) {
+                    Timber.e(io.message.toString(), "IOException")
                 }
             }
         }
