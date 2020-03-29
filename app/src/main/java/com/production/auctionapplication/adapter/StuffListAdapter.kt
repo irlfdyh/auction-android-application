@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.production.auctionapplication.databinding.StuffRowItemBinding
-import com.production.auctionapplication.networking.Stuff
+import com.production.auctionapplication.repository.networking.Stuff
 
 class StuffListAdapter : ListAdapter<Stuff,
         StuffListAdapter.StuffViewHolder>(StuffDiffCallback()) {

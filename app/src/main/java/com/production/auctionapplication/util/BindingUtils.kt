@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.production.auctionapplication.adapter.CategoryListAdapter
 import com.production.auctionapplication.adapter.OfficerListAdapter
 import com.production.auctionapplication.adapter.StuffListAdapter
-import com.production.auctionapplication.networking.Category
-import com.production.auctionapplication.networking.Officer
-import com.production.auctionapplication.networking.Stuff
+import com.production.auctionapplication.repository.networking.Category
+import com.production.auctionapplication.repository.networking.Officer
+import com.production.auctionapplication.repository.networking.Stuff
 
 @BindingAdapter("category_list_data")
 fun bindCategoryRecyclerView(recyclerView: RecyclerView, data: List<Category>?) {

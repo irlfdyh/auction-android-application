@@ -11,7 +11,7 @@
         tools:layout="@layout/fragment_stuff" />
     <fragment
         android:id="@+id/officerFragment"
-        android:name="com.production.auctionapplication.ui.officer.OfficerFragment"
+        android:name="com.production.auctionapplication.ui.administrator.officer.OfficerFragment"
         android:label="@string/officer_list_string"
         tools:layout="@layout/fragment_officer" />
     <fragment

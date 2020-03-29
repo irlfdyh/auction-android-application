@@ -1,4 +1,4 @@
-package com.production.auctionapplication.ui.officer
+package com.production.auctionapplication.ui.administrator.officer
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle

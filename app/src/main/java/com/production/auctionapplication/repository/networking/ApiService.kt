@@ -1,4 +1,4 @@
-package com.production.auctionapplication.networking
+package com.production.auctionapplication.repository.networking
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
@@ -6,7 +6,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-private const val BASE_URL = "http://192.168.100.9:8000/api/v1/"
+private const val BASE_URL = "http://192.168.100.9:8000/api/"
 
 /**
  * Create Moshi object

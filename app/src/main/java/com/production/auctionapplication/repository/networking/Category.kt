@@ -1,4 +1,4 @@
-package com.production.auctionapplication.networking
+package com.production.auctionapplication.repository.networking
 
 import android.os.Parcelable
 import com.squareup.moshi.Json

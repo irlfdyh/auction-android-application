@@ -10,8 +10,10 @@
 
     <!-- Drawer theme -->
     <style name="AppTheme.OverlapSystemBar" parent="Base.AppTheme" />
-    <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+    <style name="Base.AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!-- sets the style for the overflow button -->
@@ -25,7 +27,7 @@
 
     <!-- Toolbar theme -->
     <style name="Toolbar" parent="ThemeOverlay.AppCompat.Light" />
-    
+
     <!-- Row item text style -->
 
     <!-- Used for main text (Name or anything) -->
@@ -37,6 +39,18 @@
     <!-- Used for subtext (Status or anything) -->
     <style name="TextAppearance.Status" parent="TextAppearance.Name">
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="FullscreenTheme" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
     </style>
 
 </resources>

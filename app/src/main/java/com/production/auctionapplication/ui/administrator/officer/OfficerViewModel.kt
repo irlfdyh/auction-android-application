@@ -1,10 +1,10 @@
-package com.production.auctionapplication.ui.officer
+package com.production.auctionapplication.ui.administrator.officer
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.production.auctionapplication.networking.AuctionApi
-import com.production.auctionapplication.networking.Officer
+import com.production.auctionapplication.repository.networking.AuctionApi
+import com.production.auctionapplication.repository.networking.Officer
 import kotlinx.coroutines.*
 import timber.log.Timber
 

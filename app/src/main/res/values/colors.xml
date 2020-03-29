@@ -6,6 +6,8 @@
 
     <color name="orangeColor">#ff5722</color>
     <color name="darkOrangeColor">#c41c00</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>
 
-<!-- https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=90A4AE&secondary.color=ffffff -->
+    <!-- https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=90A4AE&secondary.color=ffffff -->

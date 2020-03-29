@@ -2,12 +2,11 @@ package com.production.auctionapplication.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.production.auctionapplication.databinding.StuffCategoryRowItemBinding
-import com.production.auctionapplication.networking.Category
+import com.production.auctionapplication.repository.networking.Category
 
 class CategoryListAdapter(private val onClickListener: OnClickListener) : ListAdapter<Category,
         CategoryListAdapter.StuffCategoryViewHolder>(CategoryDiffCallback()) {

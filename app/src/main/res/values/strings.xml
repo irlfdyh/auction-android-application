@@ -17,4 +17,15 @@
     <string name="display_price_monthly_rental">Rp.%,.0f/month</string>
     <string name="display_price">Rp.%,.0f</string>
 
+    <!-- Sign In utilities text -->
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Masuk</string>
+    <string name="empty_username">Username tidak boleh kosong..!</string>
+    <string name="empty_password">Pasword tidak boleh kosong..!</string>
+
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>

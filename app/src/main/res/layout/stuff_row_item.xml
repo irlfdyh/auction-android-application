@@ -7,7 +7,7 @@
     <data>
         <variable
             name="stuff"
-            type="com.production.auctionapplication.networking.Stuff"/>
+            type="com.production.auctionapplication.repository.networking.Stuff"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

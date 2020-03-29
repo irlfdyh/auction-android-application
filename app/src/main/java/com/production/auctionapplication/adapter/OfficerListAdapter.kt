@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.production.auctionapplication.databinding.OfficerRowItemBinding
-import com.production.auctionapplication.networking.Category
-import com.production.auctionapplication.networking.Officer
+import com.production.auctionapplication.repository.networking.Category
+import com.production.auctionapplication.repository.networking.Officer
 
 class OfficerListAdapter : ListAdapter <Officer,
         OfficerListAdapter.OfficerViewHolder>(OfficerDiffCallback()){

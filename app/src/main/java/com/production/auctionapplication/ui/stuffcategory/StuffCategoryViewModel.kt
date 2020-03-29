@@ -3,8 +3,8 @@ package com.production.auctionapplication.ui.stuffcategory
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.production.auctionapplication.networking.AuctionApi
-import com.production.auctionapplication.networking.Category
+import com.production.auctionapplication.repository.networking.AuctionApi
+import com.production.auctionapplication.repository.networking.Category
 import kotlinx.coroutines.*
 import timber.log.Timber
 
