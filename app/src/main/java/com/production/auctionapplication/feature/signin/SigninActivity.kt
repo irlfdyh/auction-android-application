@@ -1,4 +1,4 @@
-package com.production.auctionapplication.ui.signin
+package com.production.auctionapplication.feature.signin
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,10 +8,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.production.auctionapplication.R
-import com.production.auctionapplication.repository.database.OfficerDatabase
 import com.production.auctionapplication.repository.database.OfficerAuth
-import com.production.auctionapplication.ui.administrator.AdministratorActivity
-import com.production.auctionapplication.ui.officer.OfficerMainActivity
+import com.production.auctionapplication.feature.ViewModelFactory
+import com.production.auctionapplication.feature.administrator.AdministratorActivity
+import com.production.auctionapplication.feature.officer.OfficerMainActivity
 import com.production.auctionapplication.util.hideSoftKeyboard
 import kotlinx.android.synthetic.main.activity_signin.*
 
@@ -27,7 +27,8 @@ class SigninActivity : AppCompatActivity(), View.OnClickListener {
         val application = requireNotNull(this).application
 
         // Creating instance of the viewModelFactory.
-        val viewModelFactory = SigninViewModelFactory(application)
+        val viewModelFactory =
+            ViewModelFactory(application)
 
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(SigninViewModel::class.java)

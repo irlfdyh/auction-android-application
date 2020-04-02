@@ -1,4 +1,4 @@
-package com.production.auctionapplication.ui.stuffcategory
+package com.production.auctionapplication.feature.stuffcategory
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,6 +7,7 @@ import com.production.auctionapplication.repository.networking.AuctionApi
 import com.production.auctionapplication.repository.networking.Category
 import kotlinx.coroutines.*
 import timber.log.Timber
+import java.io.IOException
 
 class StuffCategoryViewModel : ViewModel() {
 
@@ -42,8 +43,9 @@ class StuffCategoryViewModel : ViewModel() {
                     Timber.i( _stuffCategory.value.toString())
                 } catch (e: Exception) {
                     // Set the list value to empty
-                    _stuffCategory.value = ArrayList()
                     Timber.e(e.message.toString())
+                } catch (io: IOException) {
+                    Timber.e(io.message.toString())
                 }
             }
         }

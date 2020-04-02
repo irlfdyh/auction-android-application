@@ -15,5 +15,5 @@ interface OfficerDatabaseDao {
     fun deleteOfficerData()
 
     @Query("SELECT * FROM officer_account_data")
-    fun getOfficerData(): OfficerAccountData
+    fun getOfficerData(): OfficerAccountData?
 }

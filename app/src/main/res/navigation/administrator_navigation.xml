@@ -6,17 +6,37 @@
     app:startDestination="@id/stuffFragment">
     <fragment
         android:id="@+id/stuffFragment"
-        android:name="com.production.auctionapplication.ui.stuff.StuffFragment"
+        android:name="com.production.auctionapplication.feature.stuff.StuffFragment"
         android:label="@string/stuff_list_string"
         tools:layout="@layout/fragment_stuff" />
     <fragment
         android:id="@+id/officerFragment"
-        android:name="com.production.auctionapplication.ui.administrator.officer.OfficerFragment"
+        android:name="com.production.auctionapplication.feature.administrator.officer.OfficerFragment"
         android:label="@string/officer_list_string"
         tools:layout="@layout/fragment_officer" />
     <fragment
         android:id="@+id/stuffCategoryFragment"
-        android:name="com.production.auctionapplication.ui.stuffcategory.StuffCategoryFragment"
+        android:name="com.production.auctionapplication.feature.stuffcategory.StuffCategoryFragment"
         android:label="@string/category_list_string"
-        tools:layout="@layout/fragment_stuff_category" />
+        tools:layout="@layout/fragment_stuff_category" >
+        <action
+            android:id="@+id/action_stuffCategoryFragment_to_createUpdateStuffCategoryFragment"
+            app:destination="@id/createUpdateStuffCategoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createUpdateStuffCategoryFragment"
+        android:name="com.production.auctionapplication.feature.stuffcategory.createupdate.CreateUpdateStuffCategoryFragment"
+        android:label="CreateUpdateStuffCategoryFragment">
+        <argument
+            android:name="stuffId"
+            app:argType="string"
+            app:nullable="true"/>
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="false"/>
+        <action
+            android:id="@+id/action_createUpdateStuffCategoryFragment_to_stuffCategoryFragment"
+            app:destination="@id/stuffCategoryFragment" />
+    </fragment>
 </navigation>

@@ -1,4 +1,4 @@
-package com.production.auctionapplication.ui.splashscreen
+package com.production.auctionapplication.feature.splashscreen
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -28,8 +28,8 @@ class SplashViewModel(application: Application) : AndroidViewModel(application) 
     val repository =
         OfficerRepository(OfficerDatabase.getInstance(application))
 
-    private var _currentOfficerData = MutableLiveData<OfficerAccountData>()
-    val currentOfficerData: LiveData<OfficerAccountData>
+    private var _currentOfficerData = MutableLiveData<OfficerAccountData?>()
+    val currentOfficerData: LiveData<OfficerAccountData?>
         get() = _currentOfficerData
 
     init {

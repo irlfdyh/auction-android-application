@@ -1,4 +1,4 @@
-package com.production.auctionapplication.ui.administrator.officer
+package com.production.auctionapplication.feature.administrator.officer
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

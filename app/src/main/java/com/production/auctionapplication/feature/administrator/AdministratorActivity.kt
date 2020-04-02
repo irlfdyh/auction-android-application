@@ -1,7 +1,5 @@
-package com.production.auctionapplication.ui.administrator
+package com.production.auctionapplication.feature.administrator
 
-import android.annotation.SuppressLint
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil

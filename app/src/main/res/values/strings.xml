@@ -24,8 +24,13 @@
     <string name="empty_username">Username tidak boleh kosong..!</string>
     <string name="empty_password">Pasword tidak boleh kosong..!</string>
 
-    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <!-- Create Update utilities text -->
+    <string name="category_name_hint">Nama Kategori</string>
+    <string name="category_description_hint">Deskripsi Kategori</string>
+
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="create_text">Buat</string>
+    <string name="must_filled_field">Field ini harus di isi...!!!</string>
 
 </resources>

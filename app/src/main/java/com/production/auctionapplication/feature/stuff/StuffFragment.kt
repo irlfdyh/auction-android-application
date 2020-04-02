@@ -1,4 +1,4 @@
-package com.production.auctionapplication.ui.stuff
+package com.production.auctionapplication.feature.stuff
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

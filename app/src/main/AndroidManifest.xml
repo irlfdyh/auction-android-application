@@ -17,7 +17,7 @@
         tools:ignore="UnusedAttribute">
 
         <activity
-            android:name=".ui.splashscreen.SplashScreenActivity"
+            android:name=".feature.splashscreen.SplashScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/FullscreenTheme">
             <intent-filter>
@@ -25,11 +25,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.signin.SigninActivity"/>
+        <activity android:name=".feature.signin.SigninActivity"/>
         <activity
-            android:name=".ui.administrator.AdministratorActivity"
+            android:name=".feature.administrator.AdministratorActivity"
             android:theme="@style/AppTheme.OverlapSystemBar" />
-        <activity android:name=".ui.officer.OfficerMainActivity" />
+        <activity android:name=".feature.officer.OfficerMainActivity" />
     </application>
 
 </manifest>

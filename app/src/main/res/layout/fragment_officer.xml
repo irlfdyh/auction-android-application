@@ -7,13 +7,13 @@
     <data>
         <variable
             name="viewModel"
-            type="com.production.auctionapplication.ui.administrator.officer.OfficerViewModel" />
+            type="com.production.auctionapplication.feature.administrator.officer.OfficerViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.administrator.officer.OfficerFragment">
+        tools:context=".feature.administrator.officer.OfficerFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

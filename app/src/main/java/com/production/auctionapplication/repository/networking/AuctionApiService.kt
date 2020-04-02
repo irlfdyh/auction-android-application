@@ -2,10 +2,7 @@ package com.production.auctionapplication.repository.networking
 
 import com.production.auctionapplication.repository.database.OfficerAuth
 import kotlinx.coroutines.Deferred
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface AuctionApiService {
 
@@ -30,6 +27,15 @@ interface AuctionApiService {
      */
     @GET("v1/category")
     fun getAllCategoryAsync(): Deferred<CategoryJsonResponse>
+
+    // Url : http//192.168.100.9:8000/api/v1/
+    @FormUrlEncoded
+    @POST("v1/category")
+    fun createNewCategoryAsync(
+        @Query("token") token: String,
+        @Field("category_name") categoryName: String,
+        @Field("category_description") categoryDescription: String
+    ): Deferred<CategoryJsonResponse>
 
     /**
      * Officer section

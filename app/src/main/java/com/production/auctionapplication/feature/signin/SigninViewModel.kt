@@ -1,4 +1,4 @@
-package com.production.auctionapplication.ui.signin
+package com.production.auctionapplication.feature.signin
 
 import android.app.Application
 import androidx.lifecycle.*

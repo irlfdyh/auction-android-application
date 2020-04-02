@@ -1,4 +1,4 @@
-package com.production.auctionapplication.ui.stuff
+package com.production.auctionapplication.feature.stuff
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

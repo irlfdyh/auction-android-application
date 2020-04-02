@@ -25,7 +25,7 @@ class OfficerRepository (private val database: OfficerDatabase) {
     /**
      * Get data from database.
      */
-    suspend fun getAccountData(): OfficerAccountData {
+    suspend fun getAccountData(): OfficerAccountData? {
         return withContext(Dispatchers.IO) {
             database.officerDatabaseDao
                 .getOfficerData()

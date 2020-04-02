@@ -1,4 +1,4 @@
-package com.production.auctionapplication.ui.officer
+package com.production.auctionapplication.feature.officer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
