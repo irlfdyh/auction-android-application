@@ -1,14 +1,13 @@
 package com.production.auctionapplication.feature.stuffcategory
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-
 import com.production.auctionapplication.adapter.CategoryListAdapter
 import com.production.auctionapplication.adapter.OnClickListener
 import com.production.auctionapplication.databinding.FragmentStuffCategoryBinding
@@ -19,7 +18,8 @@ class StuffCategoryFragment : Fragment() {
      * Initialize the view model
      */
     private val viewModel: StuffCategoryViewModel by lazy {
-        ViewModelProviders.of(this).get(StuffCategoryViewModel::class.java)
+        ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(StuffCategoryViewModel::class.java)
     }
 
     override fun onCreateView(

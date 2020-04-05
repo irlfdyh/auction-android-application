@@ -1,15 +1,17 @@
 package com.production.auctionapplication.feature.stuffcategory.createupdate
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.production.auctionapplication.repository.OfficerRepository
-import com.production.auctionapplication.repository.database.OfficerAccountData
-import com.production.auctionapplication.repository.database.OfficerAuth
 import com.production.auctionapplication.repository.database.OfficerDatabase
 import com.production.auctionapplication.repository.networking.AuctionApi
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.lang.Exception
 
 class CreateUpdateStuffCategoryViewModel(application: Application) : AndroidViewModel(application) {
 

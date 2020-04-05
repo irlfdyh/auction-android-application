@@ -2,27 +2,37 @@ package com.production.auctionapplication.feature.signin
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.production.auctionapplication.R
-import com.production.auctionapplication.repository.database.OfficerAuth
+import com.production.auctionapplication.databinding.ActivitySigninBinding
 import com.production.auctionapplication.feature.ViewModelFactory
 import com.production.auctionapplication.feature.administrator.AdministratorActivity
 import com.production.auctionapplication.feature.officer.OfficerMainActivity
+import com.production.auctionapplication.repository.database.OfficerAuth
+import com.production.auctionapplication.util.LoadingDialog
 import com.production.auctionapplication.util.hideSoftKeyboard
 import kotlinx.android.synthetic.main.activity_signin.*
 
 
-class SigninActivity : AppCompatActivity(), View.OnClickListener {
+class SigninActivity : AppCompatActivity() {
 
     private lateinit var viewModel: SigninViewModel
+    private lateinit var dialog: LoadingDialog
+    private lateinit var button: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signin)
+
+        val binding =
+            DataBindingUtil.setContentView<ActivitySigninBinding>(
+                this, R.layout.activity_signin)
+
+        binding.lifecycleOwner = this
 
         val application = requireNotNull(this).application
 
@@ -30,20 +40,23 @@ class SigninActivity : AppCompatActivity(), View.OnClickListener {
         val viewModelFactory =
             ViewModelFactory(application)
 
+        // initialize the view model
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(SigninViewModel::class.java)
 
-        login_button.setOnClickListener(this)
+        // setup loading dialog
+        dialog = LoadingDialog(this, application)
 
-    }
+        binding.viewModel = viewModel
 
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.login_button -> {
+        button = binding.loginButton
+
+        viewModel.clickState.observe(this, Observer {
+            if (it == true) {
                 loginAction()
                 hideSoftKeyboard(this)
             }
-        }
+        })
     }
 
     /**
@@ -67,11 +80,9 @@ class SigninActivity : AppCompatActivity(), View.OnClickListener {
                     username?.text.toString(),
                     password?.text.toString()
                 )
-                // Disabled the button and showing the Progressbar
-                login_button.isEnabled = false
-                signin_progress.visibility = View.VISIBLE
-
                 loginCheck()
+                showDialog(true)
+                viewModel.restartClickState()
             }
         }
     }
@@ -96,10 +107,8 @@ class SigninActivity : AppCompatActivity(), View.OnClickListener {
                     finish()
                 }
                 else -> {
+                    showDialog(false)
                     showSnackbar(it)
-
-                    login_button.isEnabled = true
-                    signin_progress.visibility = View.GONE
                 }
             }
         })
@@ -119,65 +128,15 @@ class SigninActivity : AppCompatActivity(), View.OnClickListener {
         })
     }
 
-//    private fun showLoadingDialog(): AlertDialog {
-//        val builder: AlertDialog.Builder
-//        val alertDialog: AlertDialog
-//
-//        val mContext: Context = applicationContext
-//        val inflater: LayoutInflater =
-//            mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-//        val layout: View =
-//            inflater.inflate(R.layout.stuff_row_item, findViewById(R.id.layout_root))
-//
-//        builder = AlertDialog.Builder(mContext)
-//        builder.setView(layout)
-//        alertDialog = builder.create()
-//
-//        return alertDialog
-//    }
+    private fun showDialog(state: Boolean) {
+        // Disabled the button and showing the loading dialog
+        if (state) {
+            button.isEnabled = false
+            dialog.startLoadingDialog()
+        } else {
+            dialog.hideDialog()
+            button.isEnabled = true
+        }
+    }
 
 }
-
-
-
-
-/**
- * Dialog example with timer
- */
-
-//AlertDialog dialog = new AlertDialog.Builder(this)
-//.setTitle("Notification Title")
-//.setMessage("Do you really want to delete the file?")
-//.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//    @Override
-//    public void onClick(DialogInterface dialog, int which) {
-//        // TODO: Add positive button action code here
-//    }
-//})
-//.setNegativeButton(android.R.string.no, null)
-//.create();
-//dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-//    private static final int AUTO_DISMISS_MILLIS = 6000;
-//    @Override
-//    public void onShow(final DialogInterface dialog) {
-//        final Button defaultButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
-//        final CharSequence negativeButtonText = defaultButton.getText();
-//        new CountDownTimer(AUTO_DISMISS_MILLIS, 100) {
-//        @Override
-//        public void onTick(long millisUntilFinished) {
-//            defaultButton.setText(String.format(
-//                Locale.getDefault(), "%s (%d)",
-//                negativeButtonText,
-//                TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) + 1 //add one so it never displays zero
-//            ));
-//        }
-//        @Override
-//        public void onFinish() {
-//            if (((AlertDialog) dialog).isShowing()) {
-//                dialog.dismiss();
-//            }
-//        }
-//    }.start();
-//    }
-//});
-//dialog.show();

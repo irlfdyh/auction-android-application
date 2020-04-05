@@ -6,10 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.production.auctionapplication.R
+import com.production.auctionapplication.feature.ViewModelFactory
 import com.production.auctionapplication.feature.administrator.AdministratorActivity
 import com.production.auctionapplication.feature.officer.OfficerMainActivity
 import com.production.auctionapplication.feature.signin.SigninActivity
-import com.production.auctionapplication.feature.ViewModelFactory
 
 class SplashScreenActivity : AppCompatActivity() {
 

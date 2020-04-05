@@ -22,15 +22,27 @@
     <string name="password">Password</string>
     <string name="login">Masuk</string>
     <string name="empty_username">Username tidak boleh kosong..!</string>
-    <string name="empty_password">Pasword tidak boleh kosong..!</string>
+    <string name="empty_password">Password tidak boleh kosong..!</string>
 
     <!-- Create Update utilities text -->
     <string name="category_name_hint">Nama Kategori</string>
     <string name="category_description_hint">Deskripsi Kategori</string>
+    <string name="create_text">Buat</string>
+    <string name="must_filled_field">Field ini harus di isi…!!!</string>
+    <string name="phone">No. Telepon</string>
+    <string name="officer_status">Status</string>
+    <string name="officer_level_hint">Level</string>
+    <string name="officer_name_hint">Nama Petugas</string>
+    <string name="stuff_name_hint">Nama Barang</string>
+    <string name="stuff_category_hint">Katergori Barang</string>
+    <string name="stuff_price_hint">Harga Barang</string>
+    <string name="stuff_description_hint">Deskripsi Barang</string>
 
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="create_text">Buat</string>
-    <string name="must_filled_field">Field ini harus di isi...!!!</string>
+
+    <string name="loading_text">Mohon Tunggu...</string>
+    <string name="stuff_price_suffix">Rp.</string>
+
 
 </resources>

@@ -22,7 +22,7 @@ class StuffListAdapter : ListAdapter<Stuff,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StuffViewHolder {
         return StuffViewHolder(StuffRowItemBinding.inflate(
-            LayoutInflater.from(parent.context)
+            LayoutInflater.from(parent.context), parent, false
         ))
     }
 

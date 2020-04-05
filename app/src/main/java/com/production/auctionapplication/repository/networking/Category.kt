@@ -11,7 +11,18 @@ data class CategoryJsonResponse(
 
 @Parcelize
 data class Category(
-    @Json(name = "category_id") var categoryId: Long,
+    @Json(name = "category_id") var categoryId: Int,
     @Json(name = "category_name") var categoryName: String,
     @Json(name = "category_description") var categoryDescription: String
 ) : Parcelable
+
+
+/**
+ * This function is used to only get name from all
+ * field at category list data.
+ */
+fun CategoryJsonResponse.getCategoryName(): List<String> {
+    return categoryData.map {
+        it.categoryName
+    }
+}

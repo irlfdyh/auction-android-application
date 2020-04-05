@@ -8,12 +8,20 @@
         android:id="@+id/stuffFragment"
         android:name="com.production.auctionapplication.feature.stuff.StuffFragment"
         android:label="@string/stuff_list_string"
-        tools:layout="@layout/fragment_stuff" />
+        tools:layout="@layout/fragment_stuff" >
+        <action
+            android:id="@+id/action_stuffFragment_to_createUpdateStuffFragment"
+            app:destination="@id/createUpdateStuffFragment" />
+    </fragment>
     <fragment
         android:id="@+id/officerFragment"
         android:name="com.production.auctionapplication.feature.administrator.officer.OfficerFragment"
         android:label="@string/officer_list_string"
-        tools:layout="@layout/fragment_officer" />
+        tools:layout="@layout/fragment_officer" >
+        <action
+            android:id="@+id/action_officerFragment_to_createUpdateOfficerFragment"
+            app:destination="@id/createUpdateOfficerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/stuffCategoryFragment"
         android:name="com.production.auctionapplication.feature.stuffcategory.StuffCategoryFragment"
@@ -38,5 +46,21 @@
         <action
             android:id="@+id/action_createUpdateStuffCategoryFragment_to_stuffCategoryFragment"
             app:destination="@id/stuffCategoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createUpdateOfficerFragment"
+        android:name="com.production.auctionapplication.feature.administrator.officer.createupdate.CreateUpdateOfficerFragment"
+        android:label="CreateUpdateOfficerFragment" >
+        <action
+            android:id="@+id/action_createUpdateOfficerFragment_to_officerFragment"
+            app:destination="@id/officerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createUpdateStuffFragment"
+        android:name="com.production.auctionapplication.feature.stuff.createupdate.CreateUpdateStuffFragment"
+        android:label="CreateUpdateStuffFragment" >
+        <action
+            android:id="@+id/action_createUpdateStuffFragment_to_stuffFragment"
+            app:destination="@id/stuffFragment" />
     </fragment>
 </navigation>

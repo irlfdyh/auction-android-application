@@ -1,7 +1,10 @@
 package com.production.auctionapplication.feature.signin
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.production.auctionapplication.repository.OfficerRepository
 import com.production.auctionapplication.repository.database.OfficerAuth
 import com.production.auctionapplication.repository.database.OfficerDatabase
@@ -36,6 +39,13 @@ class SigninViewModel(application: Application) : AndroidViewModel(application) 
         get() = _showSnackbarEvent
 
     /**
+     * Handle button click state to trigger some events.
+     */
+    private var _clickState = MutableLiveData<Boolean>()
+    val clickState: LiveData<Boolean>
+        get() = _clickState
+
+    /**
      * use this two properties to check are the user is successfully logged in.
      */
     private val failedLogin: LiveData<Boolean> = Transformations.map(_loginData) {
@@ -47,6 +57,11 @@ class SigninViewModel(application: Application) : AndroidViewModel(application) 
 
     private val repository =
         OfficerRepository(OfficerDatabase.getInstance(application))
+
+    init {
+        Timber.i(failedLogin.value.toString())
+        Timber.i(successLogin.value.toString())
+    }
 
     /**
      * function for handling user action at login activity.
@@ -118,6 +133,16 @@ class SigninViewModel(application: Application) : AndroidViewModel(application) 
 
                 Timber.i("Data Inserted to the Database")
             }
+        }
+    }
+
+    fun onButtonClick() {
+        _clickState.value = true
+    }
+
+    fun restartClickState() {
+        if (_clickState.value == true) {
+            _clickState.value = null
         }
     }
 

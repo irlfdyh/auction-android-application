@@ -10,12 +10,6 @@ import timber.log.Timber
 
 class StuffViewModel : ViewModel() {
 
-    // Encapsulation the variable
-    private val _stuff = MutableLiveData<List<Stuff>>()
-    val stuff: LiveData<List<Stuff>>
-        get() = _stuff
-
-    // Create a Job
     private var viewModelJob = Job()
 
     /**
@@ -23,6 +17,18 @@ class StuffViewModel : ViewModel() {
      * this is affected to the UI.
      */
     private val coroutineScope = CoroutineScope(viewModelJob+Dispatchers.Main)
+
+    // Encapsulation the variable
+    private val _stuff = MutableLiveData<List<Stuff>>()
+    val stuff: LiveData<List<Stuff>>
+        get() = _stuff
+
+    /**
+     * Used for trigger some event from this properties value
+     */
+    private val _clickHandler = MutableLiveData<Boolean>()
+    val clickHandler: LiveData<Boolean>
+        get() = _clickHandler
 
     init {
         getAllStuffData()
@@ -48,6 +54,17 @@ class StuffViewModel : ViewModel() {
             }
         }
     }
+
+    fun onButtonClick() {
+        _clickHandler.value = true
+    }
+
+    fun restartClickState() {
+        if (_clickHandler.value == true) {
+            _clickHandler.value = false
+        }
+    }
+
 
     override fun onCleared() {
         super.onCleared()

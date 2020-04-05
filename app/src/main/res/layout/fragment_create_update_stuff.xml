@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.production.auctionapplication.feature.stuff.createupdate.CreateUpdateStuffViewModel" />
+    </data>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,11 +20,11 @@
             android:padding="@dimen/normal_spacing">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/officer_username_input"
+                android:id="@+id/stuff_name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/long_spacing"
-                android:hint="@string/username"
+                android:hint="@string/stuff_name_hint"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:endIconMode="clear_text"
@@ -31,32 +37,33 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/officer_password_input"
+                android:id="@+id/stuff_category_drop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small_spacing"
-                android:hint="@string/password"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/officer_username_input"
-                app:endIconMode="password_toggle"
+                app:layout_constraintTop_toBottomOf="@id/stuff_name_input"
                 app:errorEnabled="true"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                <com.google.android.material.textfield.TextInputEditText
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"/>
+                    android:lines="1"
+                    android:inputType="none"
+                    android:hint="@string/stuff_category_hint"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/officer_name_input"
+                android:id="@+id/stuff_price_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small_spacing"
-                android:hint="@string/officer_name_hint"
+                android:hint="@string/stuff_price_hint"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/officer_password_input"
+                app:layout_constraintTop_toBottomOf="@id/stuff_category_drop"
                 app:endIconMode="clear_text"
                 app:errorEnabled="true"
+                app:prefixText="@string/stuff_price_suffix"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -65,65 +72,33 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/officer_phone_input"
+                android:id="@+id/stuff_description_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small_spacing"
-                android:hint="@string/phone"
+                android:hint="@string/stuff_description_hint"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/officer_name_input"
+                app:layout_constraintTop_toBottomOf="@id/stuff_price_input"
                 app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="phone"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/officer_status_drop"
-                android:layout_width="175dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small_spacing"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/officer_phone_input"
-                app:errorEnabled="true"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-                <AutoCompleteTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:hint="@string/officer_status"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/officer_level_drop"
-                android:layout_width="175dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small_spacing"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/officer_phone_input"
-                app:errorEnabled="true"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-                <AutoCompleteTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:hint="@string/officer_level_hint"/>
+                    android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/create_officer_button"
+                android:id="@+id/create_stuff_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/very_long_spacing"
                 android:text="@string/create_text"
+                android:onClick="@{() -> viewModel.onClickButton()}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/officer_level_drop"
+                app:layout_constraintTop_toBottomOf="@id/stuff_description_input"
                 style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
 
+    </androidx.core.widget.NestedScrollView>
 </layout>

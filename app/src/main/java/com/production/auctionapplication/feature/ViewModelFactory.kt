@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.production.auctionapplication.feature.signin.SigninViewModel
 import com.production.auctionapplication.feature.splashscreen.SplashViewModel
+import com.production.auctionapplication.feature.stuff.createupdate.CreateUpdateStuffViewModel
 import com.production.auctionapplication.feature.stuffcategory.createupdate.CreateUpdateStuffCategoryViewModel
 
 class ViewModelFactory(
@@ -13,17 +14,18 @@ class ViewModelFactory(
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        when {
+        return when {
             modelClass.isAssignableFrom(SigninViewModel::class.java) -> {
-                return SigninViewModel(
-                    application
-                ) as T
+                SigninViewModel(application) as T
             }
             modelClass.isAssignableFrom(SplashViewModel::class.java) -> {
-                return SplashViewModel(application) as T
+                SplashViewModel(application) as T
             }
             modelClass.isAssignableFrom(CreateUpdateStuffCategoryViewModel::class.java) -> {
-                return CreateUpdateStuffCategoryViewModel(application) as T
+                CreateUpdateStuffCategoryViewModel(application) as T
+            }
+            modelClass.isAssignableFrom(CreateUpdateStuffViewModel::class.java) -> {
+                CreateUpdateStuffViewModel(application) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }

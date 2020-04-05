@@ -1,12 +1,12 @@
 package com.production.auctionapplication.feature.stuffcategory.createupdate
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-
 import com.production.auctionapplication.R
 import com.production.auctionapplication.databinding.FragmentCreateUpdateStuffCategoryBinding
 import com.production.auctionapplication.feature.ViewModelFactory
@@ -21,8 +21,8 @@ class CreateUpdateStuffCategoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding =
-            FragmentCreateUpdateStuffCategoryBinding.inflate(inflater)
-        binding.lifecycleOwner = this
+            DataBindingUtil.inflate<FragmentCreateUpdateStuffCategoryBinding>(
+                inflater, R.layout.fragment_create_update_stuff_category, container, false)
 
         val application = requireActivity().application
 

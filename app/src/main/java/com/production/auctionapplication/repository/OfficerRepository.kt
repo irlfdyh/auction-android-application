@@ -1,6 +1,5 @@
 package com.production.auctionapplication.repository
 
-import androidx.lifecycle.LiveData
 import com.production.auctionapplication.repository.database.OfficerAccountData
 import com.production.auctionapplication.repository.database.OfficerAuth
 import com.production.auctionapplication.repository.database.OfficerDatabase

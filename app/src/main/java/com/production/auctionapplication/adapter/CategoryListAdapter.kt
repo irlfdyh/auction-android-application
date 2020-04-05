@@ -13,7 +13,7 @@ class CategoryListAdapter(private val onClickListener: OnClickListener) : ListAd
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StuffCategoryViewHolder {
         return StuffCategoryViewHolder(StuffCategoryRowItemBinding.inflate(
-            LayoutInflater.from(parent.context)
+            LayoutInflater.from(parent.context), parent, false
         ))
     }
 

@@ -14,6 +14,7 @@ class OfficerListAdapter : ListAdapter <Officer,
 
     class OfficerViewHolder(private var binding: OfficerRowItemBinding)
         : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(officer: Officer?) {
             binding.officer = officer
             binding.executePendingBindings()
@@ -22,7 +23,7 @@ class OfficerListAdapter : ListAdapter <Officer,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OfficerViewHolder {
         return OfficerViewHolder(OfficerRowItemBinding.inflate(
-            LayoutInflater.from(parent.context)
+            LayoutInflater.from(parent.context), parent, false
         ))
     }
 
