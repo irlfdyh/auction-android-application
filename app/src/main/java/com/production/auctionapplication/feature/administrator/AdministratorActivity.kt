@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -14,7 +15,6 @@ import com.production.auctionapplication.databinding.ActivityAdministratorBindin
 
 class AdministratorActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,26 +24,23 @@ class AdministratorActivity : AppCompatActivity() {
             DataBindingUtil.setContentView<ActivityAdministratorBinding>(
                 this, R.layout.activity_administrator)
 
-        setupNavigationDrawer()
+//        setupNavigationDrawer()
         setSupportActionBar(binding.adminToolbar)
 
         val navController = this.findNavController(R.id.nav_host_fragment)
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.stuffFragment, R.id.officerFragment, R.id.stuffCategoryFragment
-            ), drawerLayout)
+        drawerLayout = binding.adminDrawerLayout
 
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        // To displaying navigation drawer
+        // displaying navigation drawer (burger icon).
         setupWithNavController(binding.navView, navController)
+
+        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return findNavController(R.id.nav_host_fragment).navigateUp(appBarConfiguration) ||
-                super.onSupportNavigateUp()
+        val navController = this.findNavController(R.id.nav_host_fragment)
+        return NavigationUI.navigateUp(navController, drawerLayout)
     }
 
     /**

@@ -132,9 +132,9 @@ class SigninActivity : AppCompatActivity() {
         // Disabled the button and showing the loading dialog
         if (state) {
             button.isEnabled = false
-            dialog.startLoadingDialog()
+            dialog.showLoadingDialog()
         } else {
-            dialog.hideDialog()
+            dialog.hideLoadingDialog()
             button.isEnabled = true
         }
     }

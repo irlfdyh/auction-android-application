@@ -46,7 +46,8 @@ class CreateUpdateStuffViewModel(application: Application) : AndroidViewModel(ap
     val categoryName: LiveData<List<String>>
         get () = _categoryName
 
-    /** to handle the click button with triggered events.
+    /**
+     * to handle the click button with triggered events.
      */
     private var _clickState = MutableLiveData<Boolean>()
     val clickState: LiveData<Boolean>
@@ -161,6 +162,9 @@ class CreateUpdateStuffViewModel(application: Application) : AndroidViewModel(ap
         }
     }
 
+    /**
+     * To get triggered navigation to recent Fragment.
+     */
     private fun creationSuccess() {
         _createSuccess.postValue(true)
     }

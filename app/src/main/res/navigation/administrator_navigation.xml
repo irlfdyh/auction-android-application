@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/stuffFragment">
+    app:startDestination="@id/dashboardFragment">
     <fragment
         android:id="@+id/stuffFragment"
         android:name="com.production.auctionapplication.feature.stuff.StuffFragment"
@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_stuffFragment_to_createUpdateStuffFragment"
             app:destination="@id/createUpdateStuffFragment" />
+        <action
+            android:id="@+id/action_stuffFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
     </fragment>
     <fragment
         android:id="@+id/officerFragment"
@@ -21,6 +24,9 @@
         <action
             android:id="@+id/action_officerFragment_to_createUpdateOfficerFragment"
             app:destination="@id/createUpdateOfficerFragment" />
+        <action
+            android:id="@+id/action_officerFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
     </fragment>
     <fragment
         android:id="@+id/stuffCategoryFragment"
@@ -30,6 +36,9 @@
         <action
             android:id="@+id/action_stuffCategoryFragment_to_createUpdateStuffCategoryFragment"
             app:destination="@id/createUpdateStuffCategoryFragment" />
+        <action
+            android:id="@+id/action_stuffCategoryFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
     </fragment>
     <fragment
         android:id="@+id/createUpdateStuffCategoryFragment"
@@ -62,5 +71,20 @@
         <action
             android:id="@+id/action_createUpdateStuffFragment_to_stuffFragment"
             app:destination="@id/stuffFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.production.auctionapplication.feature.dashboard.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_stuffFragment"
+            app:destination="@id/stuffFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_officerFragment"
+            app:destination="@id/officerFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_stuffCategoryFragment"
+            app:destination="@id/stuffCategoryFragment" />
     </fragment>
 </navigation>

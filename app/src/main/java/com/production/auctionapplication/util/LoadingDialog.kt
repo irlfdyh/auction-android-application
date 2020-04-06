@@ -12,7 +12,7 @@ class LoadingDialog(private var activity: Activity, context: Context)
     private lateinit var dialog: AlertDialog
 
     @SuppressLint("InflateParams")
-    fun startLoadingDialog() {
+    fun showLoadingDialog() {
         val builder = Builder(activity)
 
         val inflater = activity.layoutInflater
@@ -27,7 +27,7 @@ class LoadingDialog(private var activity: Activity, context: Context)
         dialog.show()
     }
 
-    fun hideDialog() {
+    fun hideLoadingDialog() {
         dialog.dismiss()
     }
 }

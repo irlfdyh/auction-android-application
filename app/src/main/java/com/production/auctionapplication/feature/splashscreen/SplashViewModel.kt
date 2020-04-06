@@ -20,14 +20,18 @@ class SplashViewModel(application: Application) : AndroidViewModel(application) 
     /**
      * Define a coroutine scope
      */
-    private val coroutineScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val coroutineScope =
+        CoroutineScope(Dispatchers.Main + viewModelJob)
 
     /**
-     * Get Current user data from the repository.
+     * Get reference to the Repository
      */
     val repository =
         OfficerRepository(OfficerDatabase.getInstance(application))
 
+    /**
+     * Hold user data from the database.
+     */
     private var _currentOfficerData = MutableLiveData<OfficerAccountData?>()
     val currentOfficerData: LiveData<OfficerAccountData?>
         get() = _currentOfficerData
@@ -41,6 +45,7 @@ class SplashViewModel(application: Application) : AndroidViewModel(application) 
             withContext(Dispatchers.IO) {
 
                 try {
+                    // Get Current user data from the repository.
                     val currentValue =
                         repository.getAccountData()
                     _currentOfficerData.postValue(currentValue)

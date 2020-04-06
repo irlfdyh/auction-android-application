@@ -9,6 +9,11 @@ data class CategoryJsonResponse(
     @Json(name = "category") var categoryData: List<Category>
 )
 
+data class CreateUpdateCategoryResponse(
+    @Json(name = "message") var message: String,
+    @Json(name = "category") var categoryData: Category
+)
+
 @Parcelize
 data class Category(
     @Json(name = "category_id") var categoryId: Int,

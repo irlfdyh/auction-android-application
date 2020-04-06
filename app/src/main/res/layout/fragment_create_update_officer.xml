@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.production.auctionapplication.feature.administrator.officer.createupdate.CreateUpdateOfficerViewModel" />
+    </data>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -119,6 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/very_long_spacing"
                 android:text="@string/create_text"
+                android:onClick="@{() -> viewModel.buttonClick()}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/officer_level_drop"
                 style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>

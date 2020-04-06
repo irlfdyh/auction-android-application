@@ -21,28 +21,27 @@ class CreateUpdateStuffCategoryViewModel(application: Application) : AndroidView
     val categoryName = MutableLiveData<String>()
     val categoryDescription = MutableLiveData<String>()
 
-    private var categoryId: String? = null
-
-    private var isNewData: Boolean = false
-
-    private var isDataLoaded = false
-
-    private var dataCreated = false
-
-    private val repository =
-        OfficerRepository(OfficerDatabase.getInstance(application))
+    /**
+     * Handle some event that the event will be started
+     * when this properties value is true
+     */
+    private var _clickState = MutableLiveData<Boolean>()
+    val clickState: LiveData<Boolean>
+        get() = _clickState
 
     /**
-     * This properties used for handle snackbar message
+     * use to observe are the data creation is success
+     * or not, to triggered some event.
      */
-    private var _snackbarText = MutableLiveData<String>()
-    val snackbarText: LiveData<String>
-        get() = _snackbarText
+    private var _createSuccess = MutableLiveData<Boolean>()
+    val createSuccess: LiveData<Boolean>
+        get() = _createSuccess
 
-
-    fun start() {
-
-    }
+    /**
+     * Get reference to the Repository
+     */
+    private val repository =
+        OfficerRepository(OfficerDatabase.getInstance(application))
 
     fun onSaveNewData(name: String, description: String) {
         viewModelScope.launch {
@@ -53,11 +52,12 @@ class CreateUpdateStuffCategoryViewModel(application: Application) : AndroidView
                         .createNewCategoryAsync(
                             getOfficerToken()!!, name, description)
 
-                Timber.i("Request Started with data :  ${getCreationResponse.await()}")
+                Timber.i("Request Started with value :  $name, $description")
 
                 try {
                     val response = getCreationResponse.await()
                     Timber.i(response.message)
+                    createSuccess()
                 } catch (e: Exception) {
                     Timber.i(e.message.toString())
                 }
@@ -75,6 +75,26 @@ class CreateUpdateStuffCategoryViewModel(application: Application) : AndroidView
             val data = repository.getAccountData()
             // just returning user token
             data?.token
+        }
+    }
+
+    fun buttonClick() {
+        _clickState.value = true
+    }
+
+    fun restartClickState() {
+        if (_clickState.value == true) {
+            _clickState.value = false
+        }
+    }
+
+    private fun createSuccess() {
+        _createSuccess.postValue(true)
+    }
+
+    fun restartCreationState() {
+        if (_createSuccess.value == true) {
+            _createSuccess.value = false
         }
     }
 

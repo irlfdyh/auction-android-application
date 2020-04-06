@@ -46,7 +46,7 @@ interface AuctionApiService {
         @Query("token") token: String,
         @Field("category_name") categoryName: String,
         @Field("category_description") categoryDescription: String
-    ): Deferred<CategoryJsonResponse>
+    ): Deferred<CreateUpdateCategoryResponse>
 
     /**
      * Getting all available officer data

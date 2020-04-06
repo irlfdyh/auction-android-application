@@ -28,7 +28,8 @@
         <activity android:name=".feature.signin.SigninActivity"/>
         <activity
             android:name=".feature.administrator.AdministratorActivity"
-            android:theme="@style/AppTheme.OverlapSystemBar" />
+            android:theme="@style/AppTheme.OverlapSystemBar"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout"/>
         <activity android:name=".feature.officer.OfficerMainActivity" />
     </application>
 

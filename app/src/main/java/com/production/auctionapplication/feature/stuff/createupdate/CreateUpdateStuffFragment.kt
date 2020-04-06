@@ -65,6 +65,7 @@ class CreateUpdateStuffFragment : Fragment() {
             }
         })
 
+        // observing click state
         viewModel.clickState.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 saveData(category.text.toString())
@@ -72,6 +73,7 @@ class CreateUpdateStuffFragment : Fragment() {
             }
         })
 
+        // Observing success create state
         viewModel.createSuccess.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 showDialog(false)
@@ -82,6 +84,11 @@ class CreateUpdateStuffFragment : Fragment() {
         button = binding.createStuffButton
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        hideSoftKeyboard(requireActivity())
     }
 
     private fun saveData(category: String) {
@@ -118,9 +125,9 @@ class CreateUpdateStuffFragment : Fragment() {
         // Disabled the button and showing the loading dialog
         if (state) {
             button.isEnabled = false
-            dialog.startLoadingDialog()
+            dialog.showLoadingDialog()
         } else {
-            dialog.hideDialog()
+            dialog.hideLoadingDialog()
             button.isEnabled = true
         }
     }

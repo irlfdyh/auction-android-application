@@ -64,6 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/very_long_spacing"
                 android:text="@string/create_text"
+                android:onClick="@{() -> viewModel.buttonClick()}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/category_description"
                 style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
