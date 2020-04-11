@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.production.auctionapplication.feature.signin.SigninViewModel
 import com.production.auctionapplication.feature.splashscreen.SplashViewModel
+import com.production.auctionapplication.feature.stuff.StuffViewModel
 import com.production.auctionapplication.feature.stuff.createupdate.CreateUpdateStuffViewModel
 import com.production.auctionapplication.feature.stuffcategory.createupdate.CreateUpdateStuffCategoryViewModel
 
@@ -26,6 +27,9 @@ class ViewModelFactory(
             }
             modelClass.isAssignableFrom(CreateUpdateStuffViewModel::class.java) -> {
                 CreateUpdateStuffViewModel(application) as T
+            }
+            modelClass.isAssignableFrom(StuffViewModel::class.java) -> {
+                StuffViewModel(application) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }

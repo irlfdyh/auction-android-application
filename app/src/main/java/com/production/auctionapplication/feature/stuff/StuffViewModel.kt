@@ -1,14 +1,14 @@
 package com.production.auctionapplication.feature.stuff
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.*
+import com.production.auctionapplication.R
 import com.production.auctionapplication.repository.networking.AuctionApi
 import com.production.auctionapplication.repository.networking.Stuff
 import kotlinx.coroutines.*
 import timber.log.Timber
 
-class StuffViewModel : ViewModel() {
+class StuffViewModel(application: Application) : AndroidViewModel(application) {
 
     private var viewModelJob = Job()
 
@@ -29,6 +29,14 @@ class StuffViewModel : ViewModel() {
     private val _clickHandler = MutableLiveData<Boolean>()
     val clickHandler: LiveData<Boolean>
         get() = _clickHandler
+
+    val displayStuffPrice = Transformations.map(_stuff) { stuff ->
+        stuff.forEach {
+            application.applicationContext.getString(
+                R.string.display_price, it.startedPrice
+            )
+        }
+    }.toString()
 
     init {
         getAllStuffData()

@@ -14,6 +14,7 @@ data class Officer(
     @Json(name = "officer_id") var officerId: Int,
     @Json(name = "user_id") var userId: Int,
     @Json(name = "officer_name") var officerName: String,
+    @Json(name = "image_url") var imageUrl: String?,
     var status: String
 )
 

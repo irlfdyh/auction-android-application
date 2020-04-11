@@ -8,6 +8,10 @@
         <variable
             name="stuff"
             type="com.production.auctionapplication.repository.networking.Stuff"/>
+
+        <variable
+            name="viewModel"
+            type="com.production.auctionapplication.feature.stuff.StuffViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -28,6 +32,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:image_value="@{stuff.imageUrl}"
                 tools:src="@drawable/spinner_image"/>
 
             <TextView
@@ -42,26 +47,37 @@
                 tools:text="Fidget Spinner"/>
 
             <TextView
-                android:id="@+id/stuff_status"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/normal_spacing"
-                android:textColor="@android:color/holo_red_light"
-                android:text="@{stuff.status}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="Dilelang"/>
-
-            <TextView
                 android:id="@+id/stuff_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/small_spacing"
                 android:textAppearance="@style/TextAppearance.Status"
-                android:text="Rp.50.000"
                 app:layout_constraintStart_toEndOf="@id/stuff_image"
                 app:layout_constraintTop_toBottomOf="@id/stuff_name"
+                app:price_text="@{stuff.startedPrice}"
                 tools:text="Rp.50.000"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_spacing"
+                android:text="@{stuff.status}"
+                android:enabled="@{stuff.saved}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="Dilelang"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+
+<!--            <TextView-->
+<!--                android:id="@+id/stuff_status"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="@dimen/normal_spacing"-->
+<!--                android:textColor="@android:color/holo_red_light"-->
+<!--                android:text="@{stuff.status}"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                tools:text="Dilelang"/>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

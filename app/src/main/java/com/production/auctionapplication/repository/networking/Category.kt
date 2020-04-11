@@ -18,7 +18,8 @@ data class CreateUpdateCategoryResponse(
 data class Category(
     @Json(name = "category_id") var categoryId: Int,
     @Json(name = "category_name") var categoryName: String,
-    @Json(name = "category_description") var categoryDescription: String
+    @Json(name = "category_description") var categoryDescription: String,
+    @Json(name = "image_url") var imageUrl: String
 ) : Parcelable
 
 

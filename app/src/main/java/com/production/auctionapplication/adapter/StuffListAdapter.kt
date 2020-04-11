@@ -41,3 +41,7 @@ class StuffDiffCallback : DiffUtil.ItemCallback<Stuff>() {
         return oldItem == newItem
     }
 }
+
+//class StuffListener(val clickListener: (stuffId: Int?) -> Unit) {
+//    fun onCLick(stuff: Stuff) = clickListener(stuff.stuffId)
+//}

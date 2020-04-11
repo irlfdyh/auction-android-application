@@ -12,11 +12,21 @@ import androidx.navigation.fragment.findNavController
 import com.production.auctionapplication.R
 import com.production.auctionapplication.adapter.StuffListAdapter
 import com.production.auctionapplication.databinding.FragmentStuffBinding
+import com.production.auctionapplication.feature.ViewModelFactory
 
 class StuffFragment : Fragment() {
 
-    private val viewModel: StuffViewModel by lazy {
-        ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+    private lateinit var viewModel: StuffViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val application = requireActivity().application
+
+        val viewModelFactory =
+            ViewModelFactory(application)
+
+        viewModel = ViewModelProvider(this, viewModelFactory)
             .get(StuffViewModel::class.java)
     }
 

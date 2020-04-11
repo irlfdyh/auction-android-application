@@ -19,9 +19,9 @@
             android:id="@+id/officerImage"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:image_value="@{officer.imageUrl}"/>
 
         <TextView
             android:id="@+id/officerName"
@@ -31,7 +31,8 @@
             android:textAppearance="@style/TextAppearance.Name"
             android:text="@{officer.officerName}"
             app:layout_constraintStart_toEndOf="@id/officerImage"
-            app:layout_constraintTop_toTopOf="@id/officerImage" />
+            app:layout_constraintTop_toTopOf="@id/officerImage"
+            tools:text="Ardhan Joe"/>
 
         <TextView
             android:id="@+id/officerStatus"
@@ -42,8 +43,8 @@
             android:textAppearance="@style/TextAppearance.Status"
             android:text="@{officer.status}"
             app:layout_constraintStart_toEndOf="@id/officerImage"
-            app:layout_constraintTop_toBottomOf="@id/officerName"/>
-
+            app:layout_constraintTop_toBottomOf="@id/officerName"
+            tools:text="Active"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
