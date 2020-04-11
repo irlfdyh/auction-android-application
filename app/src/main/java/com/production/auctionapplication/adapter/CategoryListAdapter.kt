@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.production.auctionapplication.databinding.StuffCategoryRowItemBinding
 import com.production.auctionapplication.repository.networking.Category
 
-class CategoryListAdapter(private val onClickListener: OnClickListener) : ListAdapter<Category,
+class CategoryListAdapter(private val clickListener: StuffCategoryListener) : ListAdapter<Category,
         CategoryListAdapter.StuffCategoryViewHolder>(CategoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StuffCategoryViewHolder {
@@ -19,15 +19,17 @@ class CategoryListAdapter(private val onClickListener: OnClickListener) : ListAd
 
     override fun onBindViewHolder(holder: StuffCategoryViewHolder, position: Int) {
         val stuffCategory = getItem(position)
-        holder.bind(stuffCategory)
-
-        onClickListener.onClick(stuffCategory)
+        holder.bind(stuffCategory, clickListener)
     }
 
     class StuffCategoryViewHolder(private var binding: StuffCategoryRowItemBinding)
         : RecyclerView.ViewHolder(binding.root) {
-        fun bind(stuffCategory: Category?) {
+        fun bind(
+            stuffCategory: Category?,
+            clickListener: StuffCategoryListener
+        ) {
             binding.category = stuffCategory
+            binding.clickListener = clickListener
             binding.executePendingBindings()
 
         }
@@ -48,6 +50,6 @@ class CategoryDiffCallback : DiffUtil.ItemCallback<Category>() {
 /**
  * Row item click handler
  */
-class OnClickListener (val clickListener: (stuffCategory: Category) -> Unit) {
-    fun onClick(stuffCategory: Category) = clickListener(stuffCategory)
+class StuffCategoryListener (val clickListener: (stuffCategory: Int) -> Unit) {
+    fun onClick(stuffCategory: Category) = clickListener(stuffCategory.categoryId)
 }

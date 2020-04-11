@@ -8,17 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.production.auctionapplication.databinding.StuffRowItemBinding
 import com.production.auctionapplication.repository.networking.Stuff
 
-class StuffListAdapter : ListAdapter<Stuff,
+class StuffListAdapter(private val clickListener: StuffListener) : ListAdapter<Stuff,
         StuffListAdapter.StuffViewHolder>(StuffDiffCallback()) {
-
-    class StuffViewHolder(private var binding: StuffRowItemBinding)
-        : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(stuff: Stuff?) {
-            binding.stuff = stuff
-            binding.executePendingBindings()
-        }
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StuffViewHolder {
         return StuffViewHolder(StuffRowItemBinding.inflate(
@@ -28,8 +19,18 @@ class StuffListAdapter : ListAdapter<Stuff,
 
     override fun onBindViewHolder(holder: StuffViewHolder, position: Int) {
         val stuff = getItem(position)
-        holder.bind(stuff)
+        holder.bind(stuff, clickListener)
     }
+
+    class StuffViewHolder(private var binding: StuffRowItemBinding)
+        : RecyclerView.ViewHolder(binding.root) {
+        fun bind(stuff: Stuff?, clickListener: StuffListener) {
+            binding.stuff = stuff
+            binding.clickListener = clickListener
+            binding.executePendingBindings()
+        }
+    }
+
 }
 
 class StuffDiffCallback : DiffUtil.ItemCallback<Stuff>() {
@@ -42,6 +43,6 @@ class StuffDiffCallback : DiffUtil.ItemCallback<Stuff>() {
     }
 }
 
-//class StuffListener(val clickListener: (stuffId: Int?) -> Unit) {
-//    fun onCLick(stuff: Stuff) = clickListener(stuff.stuffId)
-//}
+class StuffListener(val clickListener: (stuffId: Int?) -> Unit) {
+    fun onCLick(stuff: Stuff) = clickListener(stuff.stuffId)
+}

@@ -8,12 +8,17 @@
         <variable
             name="officer"
             type="com.production.auctionapplication.repository.networking.Officer" />
+
+        <variable
+            name="clickListener"
+            type="com.production.auctionapplication.adapter.OfficerListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:onClick="@{() -> clickListener.onClick(officer)}">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/officerImage"

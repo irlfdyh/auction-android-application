@@ -9,17 +9,8 @@ import com.production.auctionapplication.databinding.OfficerRowItemBinding
 import com.production.auctionapplication.repository.networking.Category
 import com.production.auctionapplication.repository.networking.Officer
 
-class OfficerListAdapter : ListAdapter <Officer,
+class OfficerListAdapter(private val clickListener: OfficerListener) : ListAdapter <Officer,
         OfficerListAdapter.OfficerViewHolder>(OfficerDiffCallback()){
-
-    class OfficerViewHolder(private var binding: OfficerRowItemBinding)
-        : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(officer: Officer?) {
-            binding.officer = officer
-            binding.executePendingBindings()
-        }
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OfficerViewHolder {
         return OfficerViewHolder(OfficerRowItemBinding.inflate(
@@ -29,8 +20,19 @@ class OfficerListAdapter : ListAdapter <Officer,
 
     override fun onBindViewHolder(holder: OfficerViewHolder, position: Int) {
         val officer = getItem(position)
-        holder.bind(officer)
+        holder.bind(officer, clickListener)
     }
+
+    class OfficerViewHolder(private var binding: OfficerRowItemBinding)
+        : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(officer: Officer?, clickListener: OfficerListener) {
+            binding.officer = officer
+            binding.clickListener = clickListener
+            binding.executePendingBindings()
+        }
+    }
+
 }
 
 class OfficerDiffCallback : DiffUtil.ItemCallback<Officer>() {
@@ -46,6 +48,6 @@ class OfficerDiffCallback : DiffUtil.ItemCallback<Officer>() {
 /**
  * Row item click handler
  */
-class OnClick (val clickListener: (stuffCategory: Category) -> Unit) {
-    fun onClick(stuffCategory: Category) = clickListener(stuffCategory)
+class OfficerListener (val clickListener: (officerId: Int?) -> Unit) {
+    fun onClick(officer: Officer) = clickListener(officer.officerId)
 }

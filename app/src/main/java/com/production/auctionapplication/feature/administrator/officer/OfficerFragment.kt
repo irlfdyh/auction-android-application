@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.production.auctionapplication.adapter.OfficerListAdapter
+import com.production.auctionapplication.adapter.OfficerListener
 import com.production.auctionapplication.databinding.FragmentOfficerBinding
 
 class OfficerFragment : Fragment() {
@@ -26,7 +28,10 @@ class OfficerFragment : Fragment() {
             FragmentOfficerBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.officerList.adapter = OfficerListAdapter()
+
+        binding.officerList.adapter = OfficerListAdapter(OfficerListener { officerId ->
+            Toast.makeText(context, "$officerId", Toast.LENGTH_LONG).show()
+        })
 
         // trigger navigation to navigate to the create fragment.
         binding.toCreateFragmentFab.setOnClickListener { navigateToCreateNewOfficer() }

@@ -8,11 +8,16 @@
         <variable
             name="category"
             type="com.production.auctionapplication.repository.networking.Category" />
+
+        <variable
+            name="clickListener"
+            type="com.production.auctionapplication.adapter.StuffCategoryListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onClick(category)}">
 
         <ImageView
             android:id="@+id/categoryImage"

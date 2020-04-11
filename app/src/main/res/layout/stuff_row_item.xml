@@ -10,15 +10,16 @@
             type="com.production.auctionapplication.repository.networking.Stuff"/>
 
         <variable
-            name="viewModel"
-            type="com.production.auctionapplication.feature.stuff.StuffViewModel" />
+            name="clickListener"
+            type="com.production.auctionapplication.adapter.StuffListener" />
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/small_spacing"
-        android:elevation="2dp">
+        android:elevation="2dp"
+        android:onClick="@{() -> clickListener.onCLick(stuff)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -67,17 +68,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:text="Dilelang"
                 style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
-
-<!--            <TextView-->
-<!--                android:id="@+id/stuff_status"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_margin="@dimen/normal_spacing"-->
-<!--                android:textColor="@android:color/holo_red_light"-->
-<!--                android:text="@{stuff.status}"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                tools:text="Dilelang"/>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

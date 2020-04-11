@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.production.auctionapplication.adapter.CategoryListAdapter
-import com.production.auctionapplication.adapter.OnClickListener
+import com.production.auctionapplication.adapter.StuffCategoryListener
 import com.production.auctionapplication.databinding.FragmentStuffCategoryBinding
 
 class StuffCategoryFragment : Fragment() {
@@ -35,8 +35,8 @@ class StuffCategoryFragment : Fragment() {
         // Gave the binding access to the view model
         binding.viewModel = viewModel
 ;
-        binding.stuffCategoryList.adapter = CategoryListAdapter(OnClickListener {
-            Toast.makeText(requireContext(), "Item Clicked", Toast.LENGTH_SHORT).show()
+        binding.stuffCategoryList.adapter = CategoryListAdapter(StuffCategoryListener { categoryId ->
+            Toast.makeText(context, "$categoryId", Toast.LENGTH_SHORT).show()
         })
 
         binding.navigateFab.setOnClickListener { navigateToCreateNewCategory() }
