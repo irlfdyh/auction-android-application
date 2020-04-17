@@ -16,6 +16,7 @@ buildscript {
         moshi_version  = '1.8.0'
         timber_version = '4.7.1'
         circle_image_view_version = '3.1.0'
+        archTestingVersion = '2.1.0'
         data_binding_compiler_version = gradle_version // Always need to be the same.
     }
     repositories {
