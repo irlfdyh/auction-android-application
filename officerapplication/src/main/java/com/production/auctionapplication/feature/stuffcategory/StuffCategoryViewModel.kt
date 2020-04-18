@@ -29,7 +29,7 @@ class StuffCategoryViewModel : ViewModel() {
     /**
      * Get all stuff category data
      */
-    private fun getAllStuffCategory() {
+    fun getAllStuffCategory() {
         // launch in the background
         coroutineScope.launch {
             withContext(Dispatchers.IO) {

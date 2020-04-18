@@ -45,23 +45,8 @@ class SigninViewModel(application: Application) : AndroidViewModel(application) 
     val clickState: LiveData<Boolean>
         get() = _clickState
 
-    /**
-     * use this two properties to check are the user is successfully logged in.
-     */
-    private val failedLogin: LiveData<Boolean> = Transformations.map(_loginData) {
-        it.token.isNullOrEmpty()
-    }
-    private val successLogin: LiveData<Boolean> = Transformations.map(_loginData) {
-        it.token?.isNotEmpty()
-    }
-
     private val repository =
         OfficerRepository(OfficerDatabase.getInstance(application))
-
-    init {
-        Timber.i(failedLogin.value.toString())
-        Timber.i(successLogin.value.toString())
-    }
 
     /**
      * function for handling user action at login activity.
@@ -104,7 +89,7 @@ class SigninViewModel(application: Application) : AndroidViewModel(application) 
     /**
      * Check officer login status, if the login is failed then show the snackbar.
      */
-    private fun checkLoginStatus() {
+    internal fun checkLoginStatus() {
         // Check are the user is failed to login
         if (_loginData.value?.token == null) {
             _showSnackbarEvent.postValue(true)
@@ -142,7 +127,7 @@ class SigninViewModel(application: Application) : AndroidViewModel(application) 
 
     fun restartClickState() {
         if (_clickState.value == true) {
-            _clickState.value = null
+            _clickState.value = false
         }
     }
 
