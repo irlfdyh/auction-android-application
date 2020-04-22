@@ -58,7 +58,8 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/normal_spacing"
             android:onClick="@{() -> viewModel.onButtonClick()}"
-            app:srcCompat="@drawable/ic_add_white_24dp" />
+            app:srcCompat="@drawable/ic_add_white_24dp"
+            app:backgroundTint="@color/orangeColor"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

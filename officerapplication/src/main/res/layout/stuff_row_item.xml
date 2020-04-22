@@ -14,63 +14,93 @@
             type="com.production.auctionapplication.adapter.StuffListener" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/small_spacing"
-        android:elevation="2dp"
         android:onClick="@{() -> clickListener.onClick(stuff)}">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/top_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@dimen/normal_spacing"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/normal_spacing"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/stuff_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/stroke_color"
+            app:cardCornerRadius="4dp"
+            app:layout_constraintStart_toStartOf="@id/start_guideline"
+            app:layout_constraintTop_toBottomOf="@id/top_guideline"
+            app:layout_constraintBottom_toTopOf="@id/bottom_guideline">
 
             <ImageView
-                android:id="@+id/stuff_image"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
                 android:src="@drawable/spinner_image"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:image_value="@{stuff.imageUrl}"
                 tools:src="@drawable/spinner_image"/>
 
-            <TextView
-                android:id="@+id/stuff_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/small_spacing"
-                android:textAppearance="@style/TextAppearance.Name"
-                android:text="@{stuff.stuffName}"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/stuff_image"
-                tools:text="Fidget Spinner"/>
+        </com.google.android.material.card.MaterialCardView>
 
-            <TextView
-                android:id="@+id/stuff_price"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/small_spacing"
-                android:textAppearance="@style/TextAppearance.Status"
-                app:layout_constraintStart_toEndOf="@id/stuff_image"
-                app:layout_constraintTop_toBottomOf="@id/stuff_name"
-                app:price_text="@{stuff.startedPrice}"
-                tools:text="Rp.50.000"/>
+        <TextView
+            android:id="@+id/stuff_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_spacing"
+            android:textAppearance="@style/TextAppearance.Name"
+            android:text="@{stuff.stuffName}"
+            app:layout_constraintTop_toBottomOf="@id/top_guideline"
+            app:layout_constraintStart_toEndOf="@id/stuff_card"
+            tools:text="Fidget Spinner"/>
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/small_spacing"
-                android:text="@{stuff.status}"
-                android:enabled="@{stuff.saved}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="Dilelang"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+        <TextView
+            android:id="@+id/stuff_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/normal_spacing"
+            android:textAppearance="@style/TextAppearance.Price"
+            app:layout_constraintEnd_toStartOf="@id/end_guideline"
+            app:layout_constraintTop_toBottomOf="@id/top_guideline"
+            app:price_text="@{stuff.startedPrice}"
+            tools:text="Rp.50.000" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/stuff_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_spacing"
+            android:layout_marginTop="@dimen/eight_spacing"
+            android:textAppearance="@style/TextAppearance.Status"
+            android:text="@{stuff.status}"
+            app:layout_constraintStart_toEndOf="@id/stuff_card"
+            app:layout_constraintTop_toBottomOf="@id/stuff_name"
+            tools:text="Dilelang"/>
 
-    </androidx.cardview.widget.CardView>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/end_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/normal_spacing"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/bottom_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.84615386" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

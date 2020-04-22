@@ -5,6 +5,8 @@
     <string name="stuff_list_string">Daftar Barang</string>
     <string name="officer_list_string">Daftar Petugas</string>
     <string name="category_list">Daftar Kategori</string>
+    <string name="update_data_text">Ubah Data</string>
+    <string name="create_data_text">Tambah Data</string>
 
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
@@ -40,6 +42,7 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="loading_text">Mohon Tunggu...</string>
+    <string name="dashboard_title">Dashboard</string>
 
 
 

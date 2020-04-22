@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.production.auctionapplication.R
 import com.production.auctionapplication.databinding.FragmentCreateUpdateStuffCategoryBinding
 import com.production.auctionapplication.feature.ViewModelFactory
@@ -19,12 +20,19 @@ import kotlinx.android.synthetic.main.fragment_create_update_stuff_category.*
 
 class CreateUpdateStuffCategoryFragment : Fragment() {
 
+    private lateinit var binding: FragmentCreateUpdateStuffCategoryBinding
     private lateinit var viewModel: CreateUpdateStuffCategoryViewModel
     private lateinit var dialog: LoadingDialog
     private lateinit var button: Button
+    private val args: CreateUpdateStuffCategoryFragmentArgs by navArgs()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        binding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_create_update_stuff_category, container, false)
 
         val application = requireActivity().application
 
@@ -34,37 +42,33 @@ class CreateUpdateStuffCategoryFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(CreateUpdateStuffCategoryViewModel::class.java)
 
+        button = binding.createButton
+
         dialog = LoadingDialog(requireActivity(), application)
 
+        return binding.root
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        val binding =
-            DataBindingUtil.inflate<FragmentCreateUpdateStuffCategoryBinding>(
-                inflater, R.layout.fragment_create_update_stuff_category, container, false)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
         binding.viewModel = viewModel
-        button = binding.createButton
+
+        viewModel.onStart(args.stuffId)
 
         viewModel.clickState.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                saveData()
+                setData()
                 hideSoftKeyboard(requireActivity())
             }
         })
 
-        viewModel.createSuccess.observe(viewLifecycleOwner, Observer {
+        viewModel.uploadState.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 showDialog(false)
                 navigateToListFragment()
             }
         })
-
-        return binding.root
     }
 
     override fun onDestroyView() {
@@ -75,7 +79,7 @@ class CreateUpdateStuffCategoryFragment : Fragment() {
     /**
      * Handle button click action
      */
-    private fun saveData() {
+    private fun setData() {
 
         // Get reference to the EditText
         val name = category_name.editText
@@ -89,7 +93,8 @@ class CreateUpdateStuffCategoryFragment : Fragment() {
                 description?.error = getString(R.string.must_filled_field)
             }
             else -> {
-                viewModel.onSaveNewData(
+                viewModel.uploadData(
+                    args.stuffId,
                     name?.text.toString(),
                     description?.text.toString()
                 )

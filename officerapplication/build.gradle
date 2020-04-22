@@ -18,16 +18,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    /** enable data binding */
-    dataBinding {
-        enabled = true
-    }
-
-    /** enable parcel */
-    androidExtensions {
-        experimental = true
-    }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -44,6 +34,16 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    // Enable data-binding
+    dataBinding {
+        enabled = true
+    }
+
+    // Enable parcelable
+    androidExtensions {
+        experimental = true
     }
 
     // this options allow access android resources in the unit test,
@@ -63,11 +63,11 @@ dependencies {
     // Core with KTX
     implementation "androidx.core:core-ktx:$androidx_ktx_version"
     // Android Test
-    androidTestImplementation "androidx.test.ext:junit:$androidX_test_ext_kotlin_runner_version"
+    androidTestImplementation "androidx.test.ext:junit:$androidx_test_ext_kotlin_runner_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_version"
     // Unit Test
     testImplementation "junit:junit:$junit_version"
-    testImplementation "androidx.test.ext:junit-ktx:$androidX_test_ext_kotlin_runner_version"
+    testImplementation "androidx.test.ext:junit-ktx:$androidx_test_ext_kotlin_runner_version"
     testImplementation "androidx.test:core-ktx:$androidx_test_core_version"
     testImplementation "androidx.arch.core:core-testing:$androidx_arch_testing_version"
     //-----------------------------------------------------------------------------------------//

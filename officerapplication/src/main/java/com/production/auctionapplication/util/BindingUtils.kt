@@ -1,8 +1,10 @@
 package com.production.auctionapplication.util
 
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -25,6 +27,11 @@ fun bindCategoryRecyclerView(recyclerView: RecyclerView, data: List<CategoryResp
     // Setting recyclerView layout manager
     val mLayoutManager = LinearLayoutManager(recyclerView.context)
     recyclerView.layoutManager = mLayoutManager
+
+//    // Adding divider to every item
+//    val mDividerItemDecoration =
+//        DividerItemDecoration(recyclerView.context, mLayoutManager.orientation)
+//    recyclerView.addItemDecoration(mDividerItemDecoration)
 }
 
 @BindingAdapter("officer_list_data")
@@ -49,6 +56,11 @@ fun bindStuffRecyclerView(recyclerView: RecyclerView, data: List<StuffResponse>?
 
     val mLayoutManager = LinearLayoutManager(recyclerView.context)
     recyclerView.layoutManager = mLayoutManager
+
+//    // Adding divider to every item
+//    val mDividerItemDecoration =
+//        DividerItemDecoration(recyclerView.context, mLayoutManager.orientation)
+//    recyclerView.addItemDecoration(mDividerItemDecoration)
 }
 
 @BindingAdapter("image_value")
@@ -67,4 +79,11 @@ fun bindPriceText(textView: TextView, priceInt: Int) {
     val rupiahFormat = NumberFormat.getCurrencyInstance(localeID)
 
     textView.text = rupiahFormat.format(priceInt.toDouble())
+}
+
+@BindingAdapter("set_text")
+fun EditText.bindEditText(data: String?) {
+    data?.let {
+        this.setText(it.toString())
+    }
 }

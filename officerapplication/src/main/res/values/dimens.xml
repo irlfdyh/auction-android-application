@@ -9,6 +9,7 @@
     <dimen name="very_long_spacing">64dp</dimen>
     <dimen name="long_spacing">32dp</dimen>
     <dimen name="normal_spacing">16dp</dimen>
+    <dimen name="eight_spacing">8dp</dimen>
     <dimen name="small_spacing">5dp</dimen>
 
 </resources>

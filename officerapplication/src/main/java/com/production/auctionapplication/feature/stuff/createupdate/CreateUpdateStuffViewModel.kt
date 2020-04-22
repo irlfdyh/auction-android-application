@@ -26,7 +26,7 @@ class CreateUpdateStuffViewModel(application: Application) : AndroidViewModel(ap
      * properties to setup key and value to get id from item that selected
      * from the drop down.
      */
-    private val setKeyValue = mutableMapOf<String, CategoryResponse>()
+    private val setKeyValue = mutableMapOf<String?, CategoryResponse>()
 
     /**
      * to get the [categoryId] from the input key which it is the same item
@@ -42,8 +42,8 @@ class CreateUpdateStuffViewModel(application: Application) : AndroidViewModel(ap
     /**
      * Properties to hold the category name
      */
-    private var _categoryName = MutableLiveData<List<String>>()
-    val categoryName: LiveData<List<String>>
+    private var _categoryName = MutableLiveData<List<String?>>()
+    val categoryName: LiveData<List<String?>>
         get () = _categoryName
 
     /**

@@ -3,6 +3,7 @@ package com.production.auctionapplication.repository.networking
 import com.production.auctionapplication.repository.networking.models.auth.OfficerAuth
 import com.production.auctionapplication.repository.networking.models.category.RequestAllCategoryResponse
 import com.production.auctionapplication.repository.networking.models.category.CreateUpdateCategoryResponse
+import com.production.auctionapplication.repository.networking.models.category.RequestDetailCategoryResponse
 import com.production.auctionapplication.repository.networking.models.officer.CreateUpdateOfficerResponse
 import com.production.auctionapplication.repository.networking.models.officer.RequestAllOfficerResponse
 import com.production.auctionapplication.repository.networking.models.stuff.CreateUpdateStuffResponse
@@ -45,10 +46,24 @@ interface AuctionApiService {
     @GET("v1/category")
     fun getAllCategoryAsync(): Deferred<RequestAllCategoryResponse>
 
+    @GET("v1/category/{id}")
+    fun getDetailCategoryAsync(
+        @Path("id") categoryId: String
+    ): Deferred<RequestDetailCategoryResponse>
+
     // Url : http//192.168.100.9:8000/api/v1/category?token={random string}
     @FormUrlEncoded
     @POST("v1/category")
     fun createNewCategoryAsync(
+        @Query("token") token: String,
+        @Field("category_name") categoryName: String,
+        @Field("category_description") categoryDescription: String
+    ): Deferred<CreateUpdateCategoryResponse>
+
+    @FormUrlEncoded
+    @PUT("v1/category/{id}")
+    fun updateCategoryAsync(
+        @Path("id") categoryIdSend: String,
         @Query("token") token: String,
         @Field("category_name") categoryName: String,
         @Field("category_description") categoryDescription: String

@@ -43,7 +43,8 @@
     <fragment
         android:id="@+id/createUpdateStuffCategoryFragment"
         android:name="com.production.auctionapplication.feature.stuffcategory.createupdate.CreateUpdateStuffCategoryFragment"
-        android:label="CreateUpdateStuffCategoryFragment">
+        android:label="{title}"
+        tools:layout="@layout/fragment_create_update_stuff_category">
         <argument
             android:name="stuffId"
             app:argType="string"
@@ -59,7 +60,8 @@
     <fragment
         android:id="@+id/createUpdateOfficerFragment"
         android:name="com.production.auctionapplication.feature.administrator.officer.createupdate.CreateUpdateOfficerFragment"
-        android:label="CreateUpdateOfficerFragment" >
+        android:label="CreateUpdateOfficerFragment"
+        tools:layout="@layout/fragment_create_update_officer">
         <action
             android:id="@+id/action_createUpdateOfficerFragment_to_officerFragment"
             app:destination="@id/officerFragment" />
@@ -67,7 +69,8 @@
     <fragment
         android:id="@+id/createUpdateStuffFragment"
         android:name="com.production.auctionapplication.feature.stuff.createupdate.CreateUpdateStuffFragment"
-        android:label="CreateUpdateStuffFragment" >
+        android:label="CreateUpdateStuffFragment"
+        tools:layout="@layout/fragment_create_update_stuff">
         <action
             android:id="@+id/action_createUpdateStuffFragment_to_stuffFragment"
             app:destination="@id/stuffFragment" />
@@ -75,7 +78,7 @@
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.production.auctionapplication.feature.dashboard.DashboardFragment"
-        android:label="fragment_dashboard"
+        android:label="@string/dashboard_title"
         tools:layout="@layout/fragment_dashboard" >
         <action
             android:id="@+id/action_dashboardFragment_to_stuffFragment"

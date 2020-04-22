@@ -15,7 +15,7 @@ buildscript {
         androidx_arch_testing_version = '2.0.0'
         androidx_espresso_version = '3.2.0-beta01'
         androidx_ktx_version = '1.2.0'
-        androidX_test_ext_kotlin_runner_version = '1.1.1'
+        androidx_test_ext_kotlin_runner_version = '1.1.1'
         androidx_test_core_version = '1.2.0'
         junit_version = '4.13'
 
@@ -25,8 +25,8 @@ buildscript {
 
         // Android architecture dependencies version
         androidx_lifecycle_version = '2.2.0'
-        androidx_navigation_version = '2.2.1'
-        androidx_room_version = '2.2.4'
+        androidx_navigation_version = '2.2.2'
+        androidx_room_version = '2.2.5'
 
         //Third party dependencies version
         circle_image_view_version = '3.1.0'
@@ -46,7 +46,7 @@ buildscript {
         
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.1'
+        classpath 'com.android.tools.build:gradle:3.6.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // android safe-args
