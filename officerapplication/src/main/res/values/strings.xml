@@ -43,7 +43,9 @@
 
     <string name="loading_text">Mohon Tunggu...</string>
     <string name="dashboard_title">Dashboard</string>
-
+    <string name="reload_text">Muat Ulang</string>
+    <string name="cto_text">Kayanya belum dapet respon dari server nih...</string>
+    <string name="no_connection_text">kayanya lagi ga bisa nyambung ke server nih...</string>
 
 
 </resources>

@@ -52,12 +52,13 @@ interface AuctionApiService {
     ): Deferred<RequestDetailCategoryResponse>
 
     // Url : http//192.168.100.9:8000/api/v1/category?token={random string}
-    @FormUrlEncoded
+    @Multipart
     @POST("v1/category")
     fun createNewCategoryAsync(
         @Query("token") token: String,
-        @Field("category_name") categoryName: String,
-        @Field("category_description") categoryDescription: String
+        @Part("category_name") categoryName: String,
+        @Part("category_description") categoryDescription: String,
+        @Part("image") categoryImage: String
     ): Deferred<CreateUpdateCategoryResponse>
 
     @FormUrlEncoded

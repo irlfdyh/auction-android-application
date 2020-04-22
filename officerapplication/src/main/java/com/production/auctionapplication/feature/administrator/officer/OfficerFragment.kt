@@ -5,38 +5,52 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.production.auctionapplication.R
 import com.production.auctionapplication.adapter.OfficerListAdapter
 import com.production.auctionapplication.adapter.OfficerListener
 import com.production.auctionapplication.databinding.FragmentOfficerBinding
+import com.production.auctionapplication.util.EventObserver
 
 class OfficerFragment : Fragment() {
 
-    private val viewModel: OfficerViewModel by lazy {
-        ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
-            .get(OfficerViewModel::class.java)
-    }
+    private lateinit var viewModel: OfficerViewModel
+    private lateinit var binding: FragmentOfficerBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding =
-            FragmentOfficerBinding.inflate(inflater)
+        binding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_officer, container, false)
+
         binding.lifecycleOwner = this
-        binding.viewModel = viewModel
 
         binding.officerList.adapter = OfficerListAdapter(OfficerListener { officerId ->
             Toast.makeText(context, "$officerId", Toast.LENGTH_LONG).show()
         })
 
-        // trigger navigation to navigate to the create fragment.
-        binding.toCreateFragmentFab.setOnClickListener { navigateToCreateNewOfficer() }
-
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        viewModel = ViewModelProvider(this)
+            .get(OfficerViewModel::class.java)
+
+        binding.viewModel = viewModel
+
+        // trigger navigation to the create new fragment
+        viewModel.clickState.observe(viewLifecycleOwner, EventObserver{
+            if (it) {
+                navigateToCreateNewOfficer()
+            }
+        })
     }
 
     private fun navigateToCreateNewOfficer() {

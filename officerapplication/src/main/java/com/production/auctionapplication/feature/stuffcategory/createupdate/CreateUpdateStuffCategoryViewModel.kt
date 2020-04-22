@@ -103,7 +103,7 @@ class CreateUpdateStuffCategoryViewModel(application: Application) : AndroidView
                 val getCreationResponse =
                     AuctionApi.retrofitService
                         .createNewCategoryAsync(
-                            getOfficerToken()!!, name, description)
+                            getOfficerToken()!!, name, description, "")
 
                 Timber.i("Request Started with value :  $name, $description")
 

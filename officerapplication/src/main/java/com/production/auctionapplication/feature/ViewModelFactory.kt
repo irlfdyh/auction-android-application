@@ -3,6 +3,7 @@ package com.production.auctionapplication.feature
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.production.auctionapplication.feature.administrator.officer.OfficerViewModel
 import com.production.auctionapplication.feature.signin.SigninViewModel
 import com.production.auctionapplication.feature.splashscreen.SplashViewModel
 import com.production.auctionapplication.feature.stuff.StuffViewModel
@@ -30,6 +31,9 @@ class ViewModelFactory(
             }
             modelClass.isAssignableFrom(StuffViewModel::class.java) -> {
                 StuffViewModel(application) as T
+            }
+            modelClass.isAssignableFrom(OfficerViewModel::class.java) -> {
+                OfficerViewModel(application) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }

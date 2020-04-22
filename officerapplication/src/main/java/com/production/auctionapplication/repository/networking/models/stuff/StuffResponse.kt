@@ -9,7 +9,7 @@ import com.squareup.moshi.Json
  */
 data class RequestAllStuffResponse(
     @Json(name = "message") var message: String,
-    @Json(name = "stuff") var stuffData: List<StuffResponse>?
+    @Json(name = "stuff") var stuffData: List<StuffResponse?>
 )
 
 data class CreateUpdateStuffResponse(

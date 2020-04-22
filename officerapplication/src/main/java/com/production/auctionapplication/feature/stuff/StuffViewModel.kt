@@ -5,38 +5,53 @@ import androidx.lifecycle.*
 import com.production.auctionapplication.R
 import com.production.auctionapplication.repository.networking.AuctionApi
 import com.production.auctionapplication.repository.networking.models.stuff.StuffResponse
+import com.production.auctionapplication.util.ERROR_CTO
+import com.production.auctionapplication.util.ERROR_NO_RESPONSE
+import com.production.auctionapplication.util.Event
 import kotlinx.coroutines.*
 import timber.log.Timber
 
 class StuffViewModel(application: Application) : AndroidViewModel(application) {
 
-    private var viewModelJob = Job()
-
-    /**
-     * Coroutine scope for a new Job using Main Dispatcher, because
-     * this is affected to the UI.
-     */
-    private val coroutineScope = CoroutineScope(viewModelJob+Dispatchers.Main)
-
     // Encapsulation the variable
-    private val _stuff = MutableLiveData<List<StuffResponse>>()
-    val stuff: LiveData<List<StuffResponse>>
+    private val _stuff = MutableLiveData<List<StuffResponse?>>()
+    val stuff: LiveData<List<StuffResponse?>>
         get() = _stuff
 
     /**
      * Used for trigger some event from this properties value
      */
-    private val _clickHandler = MutableLiveData<Boolean>()
-    val clickHandler: LiveData<Boolean>
+    private val _clickHandler = MutableLiveData<Event<Boolean>>()
+    val clickHandler: LiveData<Event<Boolean>>
         get() = _clickHandler
 
-    val displayStuffPrice = Transformations.map(_stuff) { stuff ->
-        stuff.forEach {
-            application.applicationContext.getString(
-                R.string.display_price, it.startedPrice
-            )
+    private var _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
+
+    private var _isDataEmpty = MutableLiveData<Boolean>()
+    val isDataEmpty: LiveData<Boolean>
+        get() = _isDataEmpty
+
+    private var _isLoadDataFailed = MutableLiveData<Boolean>()
+    val isLoadDataFailed: LiveData<Boolean>
+        get() = _isLoadDataFailed
+
+    private var _isRequestSuccess = MutableLiveData<Boolean>()
+    val isRequestSuccess: LiveData<Boolean>
+        get() = _isRequestSuccess
+
+    private var _errorCode = MutableLiveData<Int>()
+
+    /**
+     * setup error message according to the error message
+     */
+    val errorMessage: LiveData<String> = Transformations.map(_errorCode) {
+        when (it) {
+            ERROR_CTO -> application.getString(R.string.cto_text)
+            else -> application.getString(R.string.no_connection_text)
         }
-    }.toString()
+    }
 
     init {
         getAllStuffData()
@@ -45,37 +60,52 @@ class StuffViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * Getting all stuff data from the API
      */
-    private fun getAllStuffData() {
-        // launching the coroutine
-        coroutineScope.launch {
-            // switch to the I/O thread
+    fun getAllStuffData() {
+        viewModelScope.launch {
             withContext(Dispatchers.IO) {
+
+                _isLoading.postValue(true)
+                _isDataEmpty.postValue(false)
+                _isLoadDataFailed.postValue(false)
+                _isRequestSuccess.postValue(false)
+
                 val getStuffDeferred =
                     AuctionApi.retrofitService.getAllStuffAsync()
+
                 try {
                     val result  = getStuffDeferred.await()
-                    _stuff.postValue(result.stuffData)
-                    Timber.i(_stuff.toString())
+                    if (result.stuffData.isEmpty()) {
+                        _isDataEmpty.postValue(true)
+                        _isLoading.postValue(false)
+                        _isRequestSuccess.postValue(true)
+                    } else {
+                        _stuff.postValue(result.stuffData)
+                        _isLoading.postValue(false)
+                        _isRequestSuccess.postValue(true)
+                    }
                 } catch (e: Exception) {
                     Timber.e(e.message.toString())
+
+                    _isLoadDataFailed.postValue(true)
+                    _isLoading.postValue(false)
+                    _isRequestSuccess.postValue(false)
+
+                    // setup error message
+                    when (e.message.toString()) {
+                        "timeout" -> _errorCode.postValue(ERROR_CTO)
+                        else -> _errorCode.postValue(ERROR_NO_RESPONSE)
+                    }
                 }
             }
         }
     }
 
     fun onButtonClick() {
-        _clickHandler.value = true
+        _clickHandler.value = Event(true)
     }
-
-    fun restartClickState() {
-        if (_clickHandler.value == true) {
-            _clickHandler.value = false
-        }
-    }
-
 
     override fun onCleared() {
         super.onCleared()
-        viewModelJob.cancel()
+        viewModelScope.cancel()
     }
 }

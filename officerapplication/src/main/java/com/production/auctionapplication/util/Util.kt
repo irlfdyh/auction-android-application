@@ -52,3 +52,6 @@ fun currentTime(): String {
         formatter.format(date).toString()
     }
 }
+
+const val ERROR_CTO = 1
+const val ERROR_NO_RESPONSE = 2

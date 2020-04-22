@@ -60,4 +60,19 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="ButtonAppearance.Reload" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:backgroundTint">@color/orangeColor</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="AddFabStyle">
+        <item name="srcCompat">@drawable/ic_add_white_24dp</item>
+        <item name="backgroundTint">@color/orangeColor</item>
+        <item name="tint">@android:color/white</item>
+    </style>
+
 </resources>
+
+
+<!--    Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>-->
