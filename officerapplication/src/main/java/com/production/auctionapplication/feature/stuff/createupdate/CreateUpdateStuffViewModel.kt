@@ -2,31 +2,45 @@ package com.production.auctionapplication.feature.stuff.createupdate
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.production.auctionapplication.R
 import com.production.auctionapplication.repository.OfficerRepository
+import com.production.auctionapplication.repository.database.OfficerAccountData
 import com.production.auctionapplication.repository.database.OfficerDatabase
 import com.production.auctionapplication.repository.networking.AuctionApi
 import com.production.auctionapplication.repository.networking.models.category.CategoryResponse
 import com.production.auctionapplication.repository.networking.models.category.RequestAllCategoryResponse
 import com.production.auctionapplication.repository.networking.models.category.getCategoryName
+import com.production.auctionapplication.repository.networking.models.stuff.StuffResponse
+import com.production.auctionapplication.util.Event
+import com.production.auctionapplication.util.REQUEST_CREATE_DATA_FAILED
+import com.production.auctionapplication.util.REQUEST_CREATE_DATA_SUCCESS
 import com.production.auctionapplication.util.currentTime
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import kotlin.toString as toString1
 
 class CreateUpdateStuffViewModel(application: Application) : AndroidViewModel(application) {
 
     /**
+     * reference to get the user token from the local database.
+     */
+    private val repository =
+        OfficerRepository(OfficerDatabase.getInstance(application))
+
+    /**
      * properties is used to hold data from response
      */
-    private var _stuffCategory = mutableListOf<CategoryResponse>()
+    private var _stuffCategory
+            = mutableListOf<CategoryResponse>()
 
     /**
      * properties to setup key and value to get id from item that selected
      * from the drop down.
      */
-    private val setKeyValue = mutableMapOf<String?, CategoryResponse>()
+    private val setKeyValue
+            = mutableMapOf<String?, CategoryResponse>()
 
     /**
      * to get the [categoryId] from the input key which it is the same item
@@ -40,6 +54,14 @@ class CreateUpdateStuffViewModel(application: Application) : AndroidViewModel(ap
     }
 
     /**
+     * property value to bind the layout
+     */
+    var stuffName = MutableLiveData<String>()
+    var stuffCategory = MutableLiveData<String>()
+    var stuffPrice = MutableLiveData<String>()
+    var stuffDescription = MutableLiveData<String>()
+
+    /**
      * Properties to hold the category name
      */
     private var _categoryName = MutableLiveData<List<String?>>()
@@ -49,27 +71,61 @@ class CreateUpdateStuffViewModel(application: Application) : AndroidViewModel(ap
     /**
      * to handle the click button with triggered events.
      */
-    private var _clickState = MutableLiveData<Boolean>()
-    val clickState: LiveData<Boolean>
+    private var _clickState = MutableLiveData<Event<Boolean>>()
+    val clickState: LiveData<Event<Boolean>>
         get() = _clickState
-
-    /**
-     * reference to get the user token from the local database.
-     */
-    private val repository =
-        OfficerRepository(OfficerDatabase.getInstance(application))
 
     /**
      * to trigger navigation to the stuff list fragment.
      */
-    private var _createSuccess = MutableLiveData<Boolean>()
-    val createSuccess: LiveData<Boolean>
-        get() = _createSuccess
+    private var _uploadSuccess = MutableLiveData<Event<Boolean>>()
+    val uploadSuccess: LiveData<Event<Boolean>>
+        get() = _uploadSuccess
+
+    private var _buttonEnable = MutableLiveData<Boolean>()
+    val buttonEnable: LiveData<Boolean>
+        get() = _buttonEnable
+
+    private var _showDialog = MutableLiveData<Event<Boolean>>()
+    val showDialog: LiveData<Event<Boolean>>
+        get() = _showDialog
+
+    /**
+     * Get any message from request or error message from exception
+     */
+    private var _uploadCode = MutableLiveData<Event<Int>>()
+
+    private var _responseMessage = MutableLiveData<String>()
+
+    val uploadMessage: LiveData<String> = Transformations.map(_uploadCode) { code ->
+        when (code) {
+            Event(REQUEST_CREATE_DATA_FAILED) -> application.getString(R.string.requset_failed_message)
+            Event(REQUEST_CREATE_DATA_SUCCESS) -> _responseMessage.value.toString()
+            else -> null
+        }
+    }
+
+    /**
+     *  Setup default value for new or old data is false
+     */
+    private var isNewStuff: Boolean = false
+
+    fun onStart(stuffData: StuffResponse?) {
+        getStuffCategory()
+        if (stuffData == null) {
+            isNewStuff = true
+        } else {
+            stuffName.value = stuffData.stuffName
+            stuffPrice.value = stuffData.startedPrice.toString()
+            stuffDescription.value = stuffData.description
+        }
+
+    }
 
     /**
      * Get stuff category from the API.
      */
-    fun getStuffCategory() {
+    private fun getStuffCategory() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
 
@@ -85,7 +141,7 @@ class CreateUpdateStuffViewModel(application: Application) : AndroidViewModel(ap
                     setupCategoryName(result)
 
                 } catch (e: Exception) {
-                    Timber.e(e.message.toString1())
+                    Timber.e(e.message.toString())
                 }
             }
         }
@@ -98,14 +154,21 @@ class CreateUpdateStuffViewModel(application: Application) : AndroidViewModel(ap
         _categoryName.postValue(responseData.getCategoryName())
     }
 
+    fun uploadState(stuffId: String?, stuffName: String, stuffPrice: String, category: String,stuffDesc: String) {
+
+        // initial this property value
+        _uploadSuccess.value = Event(false)
+
+        if (isNewStuff || stuffId.isNullOrEmpty()) {
+
+        }
+
+    }
+
     /**
      * Creating new stuff data.
      */
-    fun saveNewStuffData(
-        name: String,
-        category: String,
-        price: String,
-        description: String) {
+    fun onCreateStuff(name: String, category: String, price: String, description: String) {
 
         viewModelScope.launch {
 
@@ -113,21 +176,22 @@ class CreateUpdateStuffViewModel(application: Application) : AndroidViewModel(ap
 
                 val createData = AuctionApi.retrofitService
                     .createNewStuffAsync(
-                        getOfficerToken()!!,
+                        getOfficerAccount()?.token,
                         setupCategoryId(category),
+                        getOfficerAccount()?.officerId,
                         name,
                         price,
                         description,
-                        currentTime()
+                        currentTime(),
+                        ""
                     )
 
                 try {
                     val response = createData.await()
                     Timber.i(response.toString())
                     Timber.i(currentTime())
-                    creationSuccess()
                 } catch (e: Exception) {
-                    Timber.e(e.message.toString1())
+                    Timber.e(e.message.toString())
                 }
             }
         }
@@ -139,40 +203,22 @@ class CreateUpdateStuffViewModel(application: Application) : AndroidViewModel(ap
      * the request parameter is need token to verify the user, so this function
      * is used to get the officer token from the database.
      */
-    private suspend fun getOfficerToken(): String? {
+    private suspend fun getOfficerAccount(): OfficerAccountData? {
         return withContext(Dispatchers.IO) {
             // get user data from repository
             val data = repository.getAccountData()
-            // just returning user token
-            data?.token
+            // return user internal data
+            data
         }
     }
 
-    fun onClickButton() {
-        _clickState.value = true
+    fun onClickAction() {
+        _clickState.value = Event(true)
     }
 
-    /**
-     * Set the value of click state to false again, to stop some event
-     * or the event is finished.
-     */
-    fun restartClickState() {
-        if (_clickState.value == true) {
-            _clickState.value = false
-        }
-    }
-
-    /**
-     * To get triggered navigation to recent Fragment.
-     */
-    private fun creationSuccess() {
-        _createSuccess.postValue(true)
-    }
-
-    fun restartCreationState() {
-        if (_createSuccess.value == true) {
-            _createSuccess.value == false
-        }
+    override fun onCleared() {
+        super.onCleared()
+        viewModelScope.cancel()
     }
 
 }

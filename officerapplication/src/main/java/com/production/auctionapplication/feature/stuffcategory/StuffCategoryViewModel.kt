@@ -14,7 +14,6 @@ import java.io.IOException
 
 class StuffCategoryViewModel(application: Application) : AndroidViewModel(application) {
 
-    // Encapsulation data
     private val _stuffCategory = MutableLiveData<List<CategoryResponse>>()
     val stuffCategory: LiveData<List<CategoryResponse>>
         get() = _stuffCategory

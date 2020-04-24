@@ -14,6 +14,7 @@ import com.production.auctionapplication.adapter.StuffListAdapter
 import com.production.auctionapplication.adapter.StuffListener
 import com.production.auctionapplication.databinding.FragmentStuffBinding
 import com.production.auctionapplication.feature.ViewModelFactory
+import com.production.auctionapplication.repository.networking.models.stuff.StuffResponse
 import com.production.auctionapplication.util.EventObserver
 
 class StuffFragment : Fragment() {
@@ -31,8 +32,8 @@ class StuffFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        binding.stuffList.adapter = StuffListAdapter(StuffListener { stuffId ->
-            Toast.makeText(context, "$stuffId", Toast.LENGTH_LONG).show()
+        binding.stuffList.adapter = StuffListAdapter(StuffListener { data ->
+            navigateToUpdateStuffData(data)
         })
 
         return binding.root
@@ -40,6 +41,7 @@ class StuffFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         val application = requireActivity().application
 
         val viewModelFactory =
@@ -50,8 +52,6 @@ class StuffFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        viewModel.getAllStuffData()
-
         viewModel.clickHandler.observe(viewLifecycleOwner, EventObserver {
             if (it) {
                 navigateToCreateNewStuff()
@@ -61,7 +61,17 @@ class StuffFragment : Fragment() {
 
     private fun navigateToCreateNewStuff() {
         val action = StuffFragmentDirections
-            .actionStuffFragmentToCreateUpdateStuffFragment()
+            .actionStuffFragmentToCreateUpdateStuffFragment(
+                getString(R.string.create_data_text), null
+            )
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToUpdateStuffData(args: StuffResponse?) {
+        val action = StuffFragmentDirections
+            .actionStuffFragmentToCreateUpdateStuffFragment(
+                getString(R.string.create_data_text), args
+            )
         findNavController().navigate(action)
     }
 

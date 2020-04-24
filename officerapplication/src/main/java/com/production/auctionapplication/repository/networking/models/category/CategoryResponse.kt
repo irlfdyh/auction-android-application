@@ -33,7 +33,7 @@ data class DetailCategoryResponse(
     @Json(name = "category_name") var categoryName: String,
     @Json(name = "category_description") var categoryDescription: String,
     @Json(name = "image_url") var imageUrl: String,
-    @Json(name = "stuff") var stuff: List<StuffResponse>
+    @Json(name = "stuff") var stuff: List<StuffResponse?>
 )
 
 

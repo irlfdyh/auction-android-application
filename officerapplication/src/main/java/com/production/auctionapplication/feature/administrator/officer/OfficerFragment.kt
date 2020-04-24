@@ -13,6 +13,7 @@ import com.production.auctionapplication.R
 import com.production.auctionapplication.adapter.OfficerListAdapter
 import com.production.auctionapplication.adapter.OfficerListener
 import com.production.auctionapplication.databinding.FragmentOfficerBinding
+import com.production.auctionapplication.repository.networking.models.officer.OfficerResponse
 import com.production.auctionapplication.util.EventObserver
 
 class OfficerFragment : Fragment() {
@@ -30,8 +31,8 @@ class OfficerFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        binding.officerList.adapter = OfficerListAdapter(OfficerListener { officerId ->
-            Toast.makeText(context, "$officerId", Toast.LENGTH_LONG).show()
+        binding.officerList.adapter = OfficerListAdapter(OfficerListener { data ->
+            navigateToUpdateOfficerData(data)
         })
 
         return binding.root
@@ -46,8 +47,8 @@ class OfficerFragment : Fragment() {
         binding.viewModel = viewModel
 
         // trigger navigation to the create new fragment
-        viewModel.clickState.observe(viewLifecycleOwner, EventObserver{
-            if (it) {
+        viewModel.clickState.observe(viewLifecycleOwner, EventObserver{ clicked ->
+            if (clicked) {
                 navigateToCreateNewOfficer()
             }
         })
@@ -55,7 +56,17 @@ class OfficerFragment : Fragment() {
 
     private fun navigateToCreateNewOfficer() {
         val action =
-            OfficerFragmentDirections.actionOfficerFragmentToCreateUpdateOfficerFragment()
+            OfficerFragmentDirections
+                .actionOfficerFragmentToCreateUpdateOfficerFragment(
+                    getString(R.string.create_data_text), null)
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToUpdateOfficerData(args: OfficerResponse?) {
+        val action =
+            OfficerFragmentDirections
+                .actionOfficerFragmentToCreateUpdateOfficerFragment(
+                    getString(R.string.create_data_text), args)
         findNavController().navigate(action)
     }
 

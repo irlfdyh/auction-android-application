@@ -37,9 +37,8 @@
             android:id="@+id/stuff_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/stroke_color"
-            app:cardCornerRadius="4dp"
+            app:cardElevation="5dp"
+            app:cardCornerRadius="5dp"
             app:layout_constraintStart_toStartOf="@id/start_guideline"
             app:layout_constraintTop_toBottomOf="@id/top_guideline"
             app:layout_constraintBottom_toTopOf="@id/bottom_guideline">
@@ -68,10 +67,11 @@
             android:id="@+id/stuff_price"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/normal_spacing"
+            android:layout_marginStart="@dimen/normal_spacing"
+            android:layout_marginTop="@dimen/normal_spacing"
             android:textAppearance="@style/TextAppearance.Price"
-            app:layout_constraintEnd_toStartOf="@id/end_guideline"
-            app:layout_constraintTop_toBottomOf="@id/top_guideline"
+            app:layout_constraintStart_toEndOf="@id/stuff_card"
+            app:layout_constraintTop_toBottomOf="@id/stuff_name"
             app:price_text="@{stuff.startedPrice}"
             tools:text="Rp.50.000" />
 
@@ -79,13 +79,12 @@
             android:id="@+id/stuff_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/normal_spacing"
-            android:layout_marginTop="@dimen/eight_spacing"
-            android:textAppearance="@style/TextAppearance.Status"
+            android:layout_marginEnd="@dimen/normal_spacing"
             android:text="@{stuff.status}"
-            app:layout_constraintStart_toEndOf="@id/stuff_card"
-            app:layout_constraintTop_toBottomOf="@id/stuff_name"
-            tools:text="Dilelang"/>
+            android:textAppearance="@style/TextAppearance.Status"
+            app:layout_constraintEnd_toStartOf="@id/end_guideline"
+            app:layout_constraintTop_toBottomOf="@id/top_guideline"
+            tools:text="Dilelang" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/end_guideline"

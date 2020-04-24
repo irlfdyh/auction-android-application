@@ -13,6 +13,7 @@ import com.production.auctionapplication.R
 import com.production.auctionapplication.adapter.CategoryListAdapter
 import com.production.auctionapplication.adapter.StuffCategoryListener
 import com.production.auctionapplication.databinding.FragmentStuffCategoryBinding
+import com.production.auctionapplication.repository.networking.models.category.CategoryResponse
 import com.production.auctionapplication.util.EventObserver
 
 class StuffCategoryFragment : Fragment() {
@@ -37,8 +38,8 @@ class StuffCategoryFragment : Fragment() {
         // set binding lifecycle owner
         binding.lifecycleOwner = this
 ;
-        binding.stuffCategoryList.adapter = CategoryListAdapter(StuffCategoryListener { categoryId ->
-            navigateToDetailCategoryData(categoryId.toString())
+        binding.stuffCategoryList.adapter = CategoryListAdapter(StuffCategoryListener { data ->
+            navigateToDetailCategoryData(data)
         })
 
         return binding.root
@@ -61,15 +62,15 @@ class StuffCategoryFragment : Fragment() {
         val action  =
             StuffCategoryFragmentDirections
                 .actionStuffCategoryFragmentToCreateUpdateStuffCategoryFragment(
-                    null,  getString(R.string.create_data_text))
+                    getString(R.string.create_data_text), null)
         findNavController().navigate(action)
     }
 
-    private fun navigateToDetailCategoryData(args: String?) {
+    private fun navigateToDetailCategoryData(args: CategoryResponse?) {
         val action =
             StuffCategoryFragmentDirections
                 .actionStuffCategoryFragmentToCreateUpdateStuffCategoryFragment(
-                    args, getString(R.string.update_data_text))
+                    getString(R.string.update_data_text), args)
         findNavController().navigate(action)
     }
 

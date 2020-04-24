@@ -1,19 +1,20 @@
 package com.production.auctionapplication.feature.stuffcategory.createupdate
 
+import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.production.auctionapplication.R
 import com.production.auctionapplication.databinding.FragmentCreateUpdateStuffCategoryBinding
 import com.production.auctionapplication.feature.ViewModelFactory
+import com.production.auctionapplication.util.EventObserver
 import com.production.auctionapplication.util.LoadingDialog
 import com.production.auctionapplication.util.hideSoftKeyboard
 import kotlinx.android.synthetic.main.fragment_create_update_stuff_category.*
@@ -22,9 +23,12 @@ class CreateUpdateStuffCategoryFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateUpdateStuffCategoryBinding
     private lateinit var viewModel: CreateUpdateStuffCategoryViewModel
-    private lateinit var dialog: LoadingDialog
-    private lateinit var button: Button
     private val args: CreateUpdateStuffCategoryFragmentArgs by navArgs()
+
+    private lateinit var dialog: LoadingDialog
+
+    private lateinit var application: Application
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,16 +38,11 @@ class CreateUpdateStuffCategoryFragment : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_create_update_stuff_category, container, false)
 
-        val application = requireActivity().application
+        binding.lifecycleOwner = this
 
-        val viewModelFactory =
-            ViewModelFactory(application)
+        application = requireActivity().application
 
-        viewModel = ViewModelProvider(this, viewModelFactory)
-            .get(CreateUpdateStuffCategoryViewModel::class.java)
-
-        button = binding.createButton
-
+        // Setup the loading dialog
         dialog = LoadingDialog(requireActivity(), application)
 
         return binding.root
@@ -52,21 +51,41 @@ class CreateUpdateStuffCategoryFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        val viewModelFactory =
+            ViewModelFactory(application)
+
+        viewModel = ViewModelProvider(this, viewModelFactory)
+            .get(CreateUpdateStuffCategoryViewModel::class.java)
+
+        // Bind View Model to the layout.
         binding.viewModel = viewModel
 
-        viewModel.onStart(args.stuffId)
+        // when the View Model is initialized call onStart function
+        // to check if the [args.categoryData] is null that means
+        // create new Category else is update data.
+        viewModel.onStart(args.category)
 
-        viewModel.clickState.observe(viewLifecycleOwner, Observer {
-            if (it == true) {
+        // the action will be started when the [clickState] is true
+        viewModel.clickState.observe(viewLifecycleOwner, EventObserver { clicked ->
+            if (clicked) {
                 setData()
                 hideSoftKeyboard(requireActivity())
             }
         })
 
-        viewModel.uploadState.observe(viewLifecycleOwner, Observer {
-            if (it == true) {
-                showDialog(false)
+        // Trigger navigation when the uploading data is success
+        viewModel.uploadIsSuccess.observe(viewLifecycleOwner, EventObserver { success ->
+            if (success) {
                 navigateToListFragment()
+            }
+        })
+
+        viewModel.showDialog.observe(viewLifecycleOwner, EventObserver { show ->
+            if (show) {
+                showDialog(true)
+            } else if (!show) {
+                showDialog(false)
+                Toast.makeText(requireContext(), viewModel.uploadMessage.value.toString(), Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -93,33 +112,28 @@ class CreateUpdateStuffCategoryFragment : Fragment() {
                 description?.error = getString(R.string.must_filled_field)
             }
             else -> {
-                viewModel.uploadData(
-                    args.stuffId,
+                viewModel.uploadState(
+                    args.category?.categoryId.toString(),
                     name?.text.toString(),
                     description?.text.toString()
                 )
-                viewModel.restartClickState()
-                showDialog(true)
             }
-        }
-
-    }
-
-    private fun showDialog(state: Boolean) {
-        if (state) {
-            button.isEnabled = false
-            dialog.showLoadingDialog()
-        } else {
-            dialog.hideLoadingDialog()
-            button.isEnabled = true
         }
     }
 
     private fun navigateToListFragment() {
-        val action = CreateUpdateStuffCategoryFragmentDirections
-            .actionCreateUpdateStuffCategoryFragmentToStuffCategoryFragment()
+        val action
+                = CreateUpdateStuffCategoryFragmentDirections
+            .actionCreateUpdateStuffCategoryFragmentToStuffCategoryFragment("")
         findNavController().navigate(action)
-        viewModel.restartCreationState()
+    }
+
+    private fun showDialog(state: Boolean) {
+        if (state) {
+            dialog.showLoadingDialog()
+        } else {
+            dialog.hideLoadingDialog()
+        }
     }
 
 }

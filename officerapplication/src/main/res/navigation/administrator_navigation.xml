@@ -33,6 +33,10 @@
         android:name="com.production.auctionapplication.feature.stuffcategory.StuffCategoryFragment"
         android:label="@string/category_list_string"
         tools:layout="@layout/fragment_stuff_category" >
+        <argument
+            android:name="message"
+            app:argType="string"
+            app:nullable="true"/>
         <action
             android:id="@+id/action_stuffCategoryFragment_to_createUpdateStuffCategoryFragment"
             app:destination="@id/createUpdateStuffCategoryFragment" />
@@ -46,34 +50,59 @@
         android:label="{title}"
         tools:layout="@layout/fragment_create_update_stuff_category">
         <argument
-            android:name="stuffId"
-            app:argType="string"
-            app:nullable="true"/>
-        <argument
             android:name="title"
             app:argType="string"
             app:nullable="false"/>
+        <argument
+            android:name="category"
+            app:argType="com.production.auctionapplication.repository.networking.models.category.CategoryResponse"
+            app:nullable="true" />
         <action
             android:id="@+id/action_createUpdateStuffCategoryFragment_to_stuffCategoryFragment"
-            app:destination="@id/stuffCategoryFragment" />
+            app:destination="@id/stuffCategoryFragment"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/stuffCategoryFragment"/>
     </fragment>
     <fragment
         android:id="@+id/createUpdateOfficerFragment"
         android:name="com.production.auctionapplication.feature.administrator.officer.createupdate.CreateUpdateOfficerFragment"
         android:label="CreateUpdateOfficerFragment"
         tools:layout="@layout/fragment_create_update_officer">
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="false"/>
+        <argument
+            android:name="officer"
+            app:argType="com.production.auctionapplication.repository.networking.models.officer.OfficerResponse"
+            app:nullable="true" />
         <action
             android:id="@+id/action_createUpdateOfficerFragment_to_officerFragment"
-            app:destination="@id/officerFragment" />
+            app:destination="@id/officerFragment"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/officerFragment"/>
     </fragment>
     <fragment
         android:id="@+id/createUpdateStuffFragment"
         android:name="com.production.auctionapplication.feature.stuff.createupdate.CreateUpdateStuffFragment"
         android:label="CreateUpdateStuffFragment"
         tools:layout="@layout/fragment_create_update_stuff">
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="false"/>
+        <argument
+            android:name="stuff"
+            app:argType="com.production.auctionapplication.repository.networking.models.stuff.StuffResponse"
+            app:nullable="true" />
         <action
             android:id="@+id/action_createUpdateStuffFragment_to_stuffFragment"
-            app:destination="@id/stuffFragment" />
+            app:destination="@id/stuffFragment"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/stuffFragment"/>
     </fragment>
     <fragment
         android:id="@+id/dashboardFragment"

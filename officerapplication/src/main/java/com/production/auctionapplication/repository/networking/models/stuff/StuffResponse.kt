@@ -1,8 +1,10 @@
 package com.production.auctionapplication.repository.networking.models.stuff
 
+import android.os.Parcelable
 import com.production.auctionapplication.repository.networking.models.category.CategoryResponse
 import com.production.auctionapplication.repository.networking.models.officer.OfficerResponse
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
 
 /**
  * To get response data when request all stuff data.
@@ -22,6 +24,7 @@ data class RequestDetailStuffResponse(
     @Json(name = "stuff") var stuffData: StuffDetailResponse?
 )
 
+@Parcelize
 data class StuffResponse(
     @Json(name = "stuff_id") var stuffId: Int?,
     @Json(name = "category_id") var categoryId: Int?,
@@ -32,7 +35,7 @@ data class StuffResponse(
     @Json(name = "image_url") var imageUrl: String?,
     @Json(name = "status") var status: String?,
     @Json(name = "date") var date: String?
-) {
+) : Parcelable {
 
     // to get state from the stuff are the stuff
     // is saved or auctioned off

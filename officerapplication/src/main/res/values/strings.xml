@@ -46,6 +46,7 @@
     <string name="reload_text">Muat Ulang</string>
     <string name="cto_text">Kayanya belum dapet respon dari server nih...</string>
     <string name="no_connection_text">kayanya lagi ga bisa nyambung ke server nih...</string>
+    <string name="requset_failed_message">Tidak ada respon dari server</string>
 
 
 </resources>

@@ -43,6 +43,6 @@ class StuffDiffCallback : DiffUtil.ItemCallback<StuffResponse>() {
     }
 }
 
-class StuffListener(val clickListener: (stuffId: Int?) -> Unit) {
-    fun onClick(stuff: StuffResponse) = clickListener(stuff.stuffId)
+class StuffListener(val clickListener: (stuffData: StuffResponse?) -> Unit) {
+    fun onClick(stuff: StuffResponse) = clickListener(stuff)
 }

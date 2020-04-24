@@ -53,5 +53,10 @@ fun currentTime(): String {
     }
 }
 
+/**
+ * Code for callback message
+ */
 const val ERROR_CTO = 1
 const val ERROR_NO_RESPONSE = 2
+const val REQUEST_CREATE_DATA_SUCCESS = 3
+const val REQUEST_CREATE_DATA_FAILED = 4

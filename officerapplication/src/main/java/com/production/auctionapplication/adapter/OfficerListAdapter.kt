@@ -47,6 +47,6 @@ class OfficerDiffCallback : DiffUtil.ItemCallback<OfficerResponse>() {
 /**
  * Row item click handler
  */
-class OfficerListener (val clickListener: (officerId: Int?) -> Unit) {
-    fun onClick(officer: OfficerResponse) = clickListener(officer.officerId)
+class OfficerListener (val clickListener: (officerData: OfficerResponse?) -> Unit) {
+    fun onClick(officer: OfficerResponse) = clickListener(officer)
 }

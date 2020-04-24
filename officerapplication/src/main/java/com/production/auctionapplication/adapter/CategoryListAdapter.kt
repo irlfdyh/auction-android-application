@@ -50,6 +50,6 @@ class CategoryDiffCallback : DiffUtil.ItemCallback<CategoryResponse>() {
 /**
  * Row item click handler
  */
-class StuffCategoryListener (val clickListener: (stuffCategory: Int) -> Unit) {
-    fun onClick(stuffCategory: CategoryResponse) = clickListener(stuffCategory.categoryId!!)
+class StuffCategoryListener (val clickListener: (stuffCategory: CategoryResponse) -> Unit) {
+    fun onClick(stuffCategory: CategoryResponse) = clickListener(stuffCategory)
 }

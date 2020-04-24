@@ -32,12 +32,14 @@ interface AuctionApiService {
     @FormUrlEncoded
     @POST("v1/stuff")
     fun createNewStuffAsync(
-        @Query("token") token: String,
-        @Field("category_id") categoryId: Int,
+        @Query("token") token: String?,
+        @Field("category_id") categoryId: Int?,
+        @Field("officer_id") officerId: Int?,
         @Field("stuff_name") stuffName: String,
         @Field("started_price") startedPrice: String,
         @Field("description") description: String,
-        @Field("date") date: String
+        @Field("date") date: String,
+        @Field("image") stuffImage: String?
     ): Deferred<CreateUpdateStuffResponse>
 
     /**
@@ -52,20 +54,20 @@ interface AuctionApiService {
     ): Deferred<RequestDetailCategoryResponse>
 
     // Url : http//192.168.100.9:8000/api/v1/category?token={random string}
-    @Multipart
+    @FormUrlEncoded
     @POST("v1/category")
     fun createNewCategoryAsync(
         @Query("token") token: String,
-        @Part("category_name") categoryName: String,
-        @Part("category_description") categoryDescription: String,
-        @Part("image") categoryImage: String
+        @Field("category_name") categoryName: String,
+        @Field("category_description") categoryDescription: String,
+        @Field("image") categoryImage: String?
     ): Deferred<CreateUpdateCategoryResponse>
 
     @FormUrlEncoded
     @PUT("v1/category/{id}")
     fun updateCategoryAsync(
         @Path("id") categoryIdSend: String,
-        @Query("token") token: String,
+        @Query("token") token: String?,
         @Field("category_name") categoryName: String,
         @Field("category_description") categoryDescription: String
     ): Deferred<CreateUpdateCategoryResponse>

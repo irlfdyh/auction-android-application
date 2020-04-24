@@ -1,16 +1,17 @@
 package com.production.auctionapplication.feature.stuffcategory.createupdate
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.production.auctionapplication.R
 import com.production.auctionapplication.repository.OfficerRepository
 import com.production.auctionapplication.repository.database.OfficerDatabase
 import com.production.auctionapplication.repository.networking.AuctionApi
-import com.production.auctionapplication.repository.networking.models.category.DetailCategoryResponse
-import com.production.auctionapplication.repository.networking.models.category.RequestDetailCategoryResponse
+import com.production.auctionapplication.repository.networking.models.category.CategoryResponse
+import com.production.auctionapplication.util.REQUEST_CREATE_DATA_FAILED
+import com.production.auctionapplication.util.REQUEST_CREATE_DATA_SUCCESS
+import com.production.auctionapplication.util.Event
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -18,77 +19,80 @@ import timber.log.Timber
 class CreateUpdateStuffCategoryViewModel(application: Application) : AndroidViewModel(application) {
 
     /**
+     * Get reference to the Repository
+     */
+    private val repository =
+        OfficerRepository(OfficerDatabase.getInstance(application))
+
+    /**
      * Use data binding to get or set text from edit text
      */
     var categoryName = MutableLiveData<String>()
     var categoryDescription = MutableLiveData<String>()
 
-    private var _detailResponse = MutableLiveData<DetailCategoryResponse>()
-    val detailResponse: LiveData<DetailCategoryResponse> = _detailResponse
-
     /**
      * Handle some event that the event will be started
      * when this properties value is true
      */
-    private var _clickState = MutableLiveData<Boolean>()
-    val clickState: LiveData<Boolean>
+    private var _clickState = MutableLiveData<Event<Boolean>>()
+    val clickState: LiveData<Event<Boolean>>
         get() = _clickState
 
     /**
-     * use to observe are the data creation is success
-     * or not, to triggered some event.
+     * Enable or disable button accordingly this value.
      */
-    private var _uploadState = MutableLiveData<Boolean>()
-    val uploadState: LiveData<Boolean>
-        get() = _uploadState
+    private var _buttonEnable = MutableLiveData<Boolean>()
+    val buttonEnable: LiveData<Boolean>
+        get() = _buttonEnable
 
     /**
-     * Get reference to the Repository
+     * when this property value is true, fragment will start navigate.
      */
-    private val repository =
-        OfficerRepository(OfficerDatabase.getInstance(application))
+    private var _uploadIsSuccess = MutableLiveData<Event<Boolean>>()
+    val uploadIsSuccess: LiveData<Event<Boolean>>
+        get() = _uploadIsSuccess
+
+    private var _showDialog = MutableLiveData<Event<Boolean>>()
+    val showDialog: LiveData<Event<Boolean>>
+        get() = _showDialog
+
+    /**
+     * Get any message from request or error message from exception
+     */
+    private var _uploadCode = MutableLiveData<Event<Int>>()
+
+    private var _responseMessage = MutableLiveData<String>()
+
+    val uploadMessage: LiveData<String> = Transformations.map(_uploadCode) { code ->
+        when (code) {
+            Event(REQUEST_CREATE_DATA_FAILED) -> application.getString(R.string.requset_failed_message)
+            Event(REQUEST_CREATE_DATA_SUCCESS) -> _responseMessage.value.toString()
+            else -> null
+        }
+    }
 
     private var isNewCategory: Boolean = false
 
     /**
      * This method is used to check, whether this is new data or not
      */
-    fun onStart(categoryId: String?) {
-        if (categoryId == null) {
+    fun onStart(categoryData: CategoryResponse?) {
+        if (categoryData == null) {
             isNewCategory = true
         } else {
-            viewModelScope.launch {
-                withContext(Dispatchers.IO) {
+            categoryName.value = categoryData.categoryName
+            categoryDescription.value = categoryData.categoryDescription
 
-                    val getCategoryData =
-                        AuctionApi.retrofitService
-                            .getDetailCategoryAsync(categoryId)
-                    try {
-                        val response = getCategoryData.await()
-                        if (response.message.isNotEmpty()) {
-                            onDataLoaded(response.categoryData)
-                        }
-                    } catch (e: Exception) {
-                        Timber.e(e.message.toString())
-                    }
-                }
-            }
+            Timber.i(categoryName.value)
+            Timber.i(categoryDescription.value)
         }
     }
 
-    private fun onDataLoaded(data: DetailCategoryResponse) {
-        categoryName.postValue(data.categoryName)
-        categoryDescription.postValue(data.categoryDescription)
+    fun uploadState(categoryId: String?, name: String, description: String) {
 
-        _detailResponse.postValue(data)
+        // initial this property value
+        _uploadIsSuccess.value = Event(false)
 
-        Timber.i("Detail response ${_detailResponse.value.toString()}")
-        Timber.i("Name Value ${categoryName.value.toString()}")
-        Timber.i("Desc Value ${categoryDescription.value.toString()}")
-        Timber.i("Main response ${data.toString()}")
-    }
-
-    fun uploadData(categoryId: String?, name: String, description: String) {
         if (isNewCategory || categoryId.isNullOrEmpty()) {
             onCreateData(name, description)
         } else {
@@ -98,21 +102,45 @@ class CreateUpdateStuffCategoryViewModel(application: Application) : AndroidView
 
     private fun onCreateData(name: String, description: String) {
         viewModelScope.launch {
+
+            _showDialog.value = Event(true)
+            _buttonEnable.value = false
+
             withContext(Dispatchers.IO) {
 
                 val getCreationResponse =
                     AuctionApi.retrofitService
                         .createNewCategoryAsync(
-                            getOfficerToken()!!, name, description, "")
+                            getOfficerToken()!!, name, description, null)
 
                 Timber.i("Request Started with value :  $name, $description")
 
                 try {
                     val response = getCreationResponse.await()
-                    Timber.i(response.message)
-                    uploadSuccess()
+                    Timber.i(response.toString())
+
+                    if (response.categoryData != null) {
+                        _responseMessage.postValue(response.message)
+
+                        _showDialog.postValue(Event(false))
+                        _uploadCode.postValue(Event(REQUEST_CREATE_DATA_SUCCESS))
+                        _uploadIsSuccess.postValue(Event(true))
+                    } else {
+                        _responseMessage.postValue(response.message)
+
+                        _showDialog.postValue(Event(false))
+                        _buttonEnable.postValue(true)
+                        _uploadCode.postValue(Event(REQUEST_CREATE_DATA_FAILED))
+                        _uploadIsSuccess.postValue(Event(false))
+
+                    }
                 } catch (e: Exception) {
-                    Timber.i(e.message.toString())
+                    Timber.i("onException : ${e.message.toString()}")
+
+                    _showDialog.postValue(Event(false))
+                    _buttonEnable.postValue(true)
+                    _uploadCode.postValue(Event(REQUEST_CREATE_DATA_FAILED))
+                    _uploadIsSuccess.postValue(Event(false))
                 }
             }
         }
@@ -120,12 +148,17 @@ class CreateUpdateStuffCategoryViewModel(application: Application) : AndroidView
 
     private fun onUpdateData(categoryId: String, name: String, description: String) {
         viewModelScope.launch {
+
+            _showDialog.value = Event(true)
+            _buttonEnable.value = false
+
             withContext(Dispatchers.IO) {
+
                 val getAction =
                     AuctionApi.retrofitService
                         .updateCategoryAsync(
                             categoryId,
-                            getOfficerToken()!!,
+                            getOfficerToken(),
                             name, description
                         )
 
@@ -134,11 +167,29 @@ class CreateUpdateStuffCategoryViewModel(application: Application) : AndroidView
                 try {
                     val response = getAction.await()
                     Timber.i(response.toString())
-                    uploadSuccess()
-                } catch (e: Exception) {
-                    Timber.e("Exc error ${e.message.toString()}")
-                }
 
+                    if (response.categoryData != null) {
+                        _responseMessage.postValue(response.message)
+
+                        _showDialog.postValue(Event(false))
+                        _uploadCode.postValue(Event(REQUEST_CREATE_DATA_SUCCESS))
+                        _uploadIsSuccess.postValue(Event(true))
+                    } else {
+                        _responseMessage.postValue(response.message)
+
+                        _showDialog.postValue(Event(false))
+                        _buttonEnable.postValue(true)
+                        _uploadCode.postValue(Event(REQUEST_CREATE_DATA_FAILED))
+                        _uploadIsSuccess.postValue(Event(false))
+                    }
+                } catch (e: Exception) {
+                    Timber.e("onException : ${e.message.toString()}")
+
+                    _showDialog.postValue(Event(false))
+                    _buttonEnable.postValue(true)
+                    _uploadCode.postValue(Event(REQUEST_CREATE_DATA_FAILED))
+                    _uploadIsSuccess.postValue(Event(false))
+                }
             }
         }
     }
@@ -156,24 +207,13 @@ class CreateUpdateStuffCategoryViewModel(application: Application) : AndroidView
         }
     }
 
-    fun buttonClick() {
-        _clickState.value = true
+    fun onClickAction() {
+        _clickState.value = Event(true)
     }
 
-    fun restartClickState() {
-        if (_clickState.value == true) {
-            _clickState.value = false
-        }
-    }
-
-    private fun uploadSuccess() {
-        _uploadState.postValue(true)
-    }
-
-    fun restartCreationState() {
-        if (_uploadState.value == true) {
-            _uploadState.value = false
-        }
+    override fun onCleared() {
+        super.onCleared()
+        viewModelScope.cancel()
     }
 
 }

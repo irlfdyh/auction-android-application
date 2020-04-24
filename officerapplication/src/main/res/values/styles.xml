@@ -11,7 +11,7 @@
     <!-- Drawer theme -->
     <style name="AppTheme.OverlapSystemBar" parent="Base.AppTheme" />
 
-    <style name="Base.AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Base.AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -60,10 +60,14 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
-    <style name="ButtonAppearance.Reload" parent="Widget.AppCompat.Button.Colored">
+    <style name="ButtonAppearance.Reload" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:backgroundTint">@color/orangeColor</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="ButtonAppearance.Confirm" parent="ButtonAppearance.Reload">
+        <item name="textAllCaps">true</item>
     </style>
 
     <style name="AddFabStyle">
