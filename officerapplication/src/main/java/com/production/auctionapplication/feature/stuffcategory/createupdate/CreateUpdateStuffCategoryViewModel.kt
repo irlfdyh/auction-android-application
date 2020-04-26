@@ -7,9 +7,7 @@ import com.production.auctionapplication.repository.OfficerRepository
 import com.production.auctionapplication.repository.database.OfficerDatabase
 import com.production.auctionapplication.repository.networking.AuctionApi
 import com.production.auctionapplication.repository.networking.models.category.CategoryResponse
-import com.production.auctionapplication.util.REQUEST_CREATE_DATA_FAILED
-import com.production.auctionapplication.util.REQUEST_CREATE_DATA_SUCCESS
-import com.production.auctionapplication.util.Event
+import com.production.auctionapplication.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -59,11 +57,11 @@ class CreateUpdateStuffCategoryViewModel(application: Application) : AndroidView
     /**
      * Get any message from request or error message from exception
      */
-    private var _uploadCode = MutableLiveData<Event<Int>>()
+    private var _uploadStateCode = MutableLiveData<Event<Int>>()
 
     private var _responseMessage = MutableLiveData<String>()
 
-    val uploadMessage: LiveData<String> = Transformations.map(_uploadCode) { code ->
+    val uploadMessage: LiveData<String> = Transformations.map(_uploadStateCode) { code ->
         when (code) {
             Event(REQUEST_CREATE_DATA_FAILED) -> application.getString(R.string.requset_failed_message)
             Event(REQUEST_CREATE_DATA_SUCCESS) -> _responseMessage.value.toString()
@@ -72,40 +70,52 @@ class CreateUpdateStuffCategoryViewModel(application: Application) : AndroidView
     }
 
     private var isNewCategory: Boolean = false
+    private var categoryId = MutableLiveData<String>()
+    private var buttonTextCode = MutableLiveData<Int>()
+
+    var buttonText = Transformations.map(buttonTextCode) {
+        when (it) {
+            BUTTON_CREATE_CODE -> application.getString(R.string.create_text)
+            else -> application.getString(R.string.update_text)
+        }
+    }
 
     /**
      * This method is used to check, whether this is new data or not
      */
     fun onStart(categoryData: CategoryResponse?) {
+
+        _buttonEnable.value = true
+        categoryId.value = categoryData?.categoryId.toString()
+
         if (categoryData == null) {
             isNewCategory = true
+
+            buttonTextCode.value = BUTTON_CREATE_CODE
         } else {
             categoryName.value = categoryData.categoryName
             categoryDescription.value = categoryData.categoryDescription
 
-            Timber.i(categoryName.value)
-            Timber.i(categoryDescription.value)
+            buttonTextCode.value = BUTTON_UPDATE_CODE
         }
     }
 
-    fun uploadState(categoryId: String?, name: String, description: String) {
+    fun onPrepareUploadData(name: String, description: String) {
 
         // initial this property value
         _uploadIsSuccess.value = Event(false)
+        _showDialog.value = Event(true)
+        _buttonEnable.value = false
 
-        if (isNewCategory || categoryId.isNullOrEmpty()) {
+        if (isNewCategory || categoryId.value.isNullOrEmpty()) {
             onCreateData(name, description)
         } else {
-            onUpdateData(categoryId, name, description)
+            onUpdateData(categoryId.value!!, name, description)
         }
     }
 
     private fun onCreateData(name: String, description: String) {
         viewModelScope.launch {
-
-            _showDialog.value = Event(true)
-            _buttonEnable.value = false
-
             withContext(Dispatchers.IO) {
 
                 val getCreationResponse =
@@ -123,14 +133,14 @@ class CreateUpdateStuffCategoryViewModel(application: Application) : AndroidView
                         _responseMessage.postValue(response.message)
 
                         _showDialog.postValue(Event(false))
-                        _uploadCode.postValue(Event(REQUEST_CREATE_DATA_SUCCESS))
+                        _uploadStateCode.postValue(Event(REQUEST_CREATE_DATA_SUCCESS))
                         _uploadIsSuccess.postValue(Event(true))
                     } else {
                         _responseMessage.postValue(response.message)
 
                         _showDialog.postValue(Event(false))
                         _buttonEnable.postValue(true)
-                        _uploadCode.postValue(Event(REQUEST_CREATE_DATA_FAILED))
+                        _uploadStateCode.postValue(Event(REQUEST_CREATE_DATA_FAILED))
                         _uploadIsSuccess.postValue(Event(false))
 
                     }
@@ -139,7 +149,7 @@ class CreateUpdateStuffCategoryViewModel(application: Application) : AndroidView
 
                     _showDialog.postValue(Event(false))
                     _buttonEnable.postValue(true)
-                    _uploadCode.postValue(Event(REQUEST_CREATE_DATA_FAILED))
+                    _uploadStateCode.postValue(Event(REQUEST_CREATE_DATA_FAILED))
                     _uploadIsSuccess.postValue(Event(false))
                 }
             }
@@ -149,8 +159,7 @@ class CreateUpdateStuffCategoryViewModel(application: Application) : AndroidView
     private fun onUpdateData(categoryId: String, name: String, description: String) {
         viewModelScope.launch {
 
-            _showDialog.value = Event(true)
-            _buttonEnable.value = false
+            Timber.i(categoryId)
 
             withContext(Dispatchers.IO) {
 
@@ -172,14 +181,14 @@ class CreateUpdateStuffCategoryViewModel(application: Application) : AndroidView
                         _responseMessage.postValue(response.message)
 
                         _showDialog.postValue(Event(false))
-                        _uploadCode.postValue(Event(REQUEST_CREATE_DATA_SUCCESS))
+                        _uploadStateCode.postValue(Event(REQUEST_CREATE_DATA_SUCCESS))
                         _uploadIsSuccess.postValue(Event(true))
                     } else {
                         _responseMessage.postValue(response.message)
 
                         _showDialog.postValue(Event(false))
                         _buttonEnable.postValue(true)
-                        _uploadCode.postValue(Event(REQUEST_CREATE_DATA_FAILED))
+                        _uploadStateCode.postValue(Event(REQUEST_CREATE_DATA_FAILED))
                         _uploadIsSuccess.postValue(Event(false))
                     }
                 } catch (e: Exception) {
@@ -187,7 +196,7 @@ class CreateUpdateStuffCategoryViewModel(application: Application) : AndroidView
 
                     _showDialog.postValue(Event(false))
                     _buttonEnable.postValue(true)
-                    _uploadCode.postValue(Event(REQUEST_CREATE_DATA_FAILED))
+                    _uploadStateCode.postValue(Event(REQUEST_CREATE_DATA_FAILED))
                     _uploadIsSuccess.postValue(Event(false))
                 }
             }

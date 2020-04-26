@@ -1,81 +1,89 @@
 package com.production.auctionapplication.feature.administrator.officer.createupdate
 
+import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AutoCompleteTextView
-import android.widget.Button
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.production.auctionapplication.R
 import com.production.auctionapplication.databinding.FragmentCreateUpdateOfficerBinding
+import com.production.auctionapplication.feature.ViewModelFactory
+import com.production.auctionapplication.util.EventObserver
 import com.production.auctionapplication.util.LoadingDialog
 import com.production.auctionapplication.util.hideSoftKeyboard
-import com.production.auctionapplication.util.setDropDownAdapter
 import kotlinx.android.synthetic.main.fragment_create_update_officer.*
 
 class CreateUpdateOfficerFragment : Fragment() {
 
+    private lateinit var application: Application
+    private lateinit var binding: FragmentCreateUpdateOfficerBinding
     private lateinit var viewModel: CreateUpdateOfficerViewModel
     private lateinit var dialog: LoadingDialog
-    private lateinit var button: Button
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val application = requireActivity().application
-
-        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
-            .get(CreateUpdateOfficerViewModel::class.java)
-
-        // setup loading dialog
-        dialog = LoadingDialog(requireActivity(), application)
-    }
+    private val args: CreateUpdateOfficerFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding =
-            DataBindingUtil.inflate<FragmentCreateUpdateOfficerBinding>(
+        binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_create_update_officer, container, false)
 
+        application = requireActivity().application
+
+        // setup loading dialog
+        dialog = LoadingDialog(requireActivity(), application)
+
+        return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        val viewModelFactory =
+            ViewModelFactory(application)
+
+        viewModel = ViewModelProvider(this, viewModelFactory)
+            .get(CreateUpdateOfficerViewModel::class.java)
+
         binding.viewModel = viewModel
-        button = binding.createOfficerButton
 
-        val items = listOf("Active", "Deactive")
-        val levelItems = listOf("Admin", "Petugas")
+        viewModel.onStart(args.officer)
 
-        val status =
-            (binding.officerStatusDrop.editText as AutoCompleteTextView).apply {
-                setAdapter(setDropDownAdapter(requireContext(), items))
-            }
-
-        val level =
-            (binding.officerLevelDrop.editText as AutoCompleteTextView).apply {
-                setAdapter(setDropDownAdapter(requireContext(), levelItems))
-            }
-
-        viewModel.clickState.observe(viewLifecycleOwner, Observer {
-            if (it == true) {
-                saveData(status.text.toString(), level.text.toString())
+        viewModel.clickState.observe(viewLifecycleOwner, EventObserver { clicked ->
+            if (clicked) {
+                onSaveData()
                 hideSoftKeyboard(requireActivity())
             }
         })
 
-        viewModel.createSuccess.observe(viewLifecycleOwner, Observer {
-            if (it == true) {
+        viewModel.showDialog.observe(viewLifecycleOwner, EventObserver { show ->
+            if (show) {
+                showDialog(true)
+            } else if (!show) {
                 showDialog(false)
+            }
+        })
+
+        viewModel.uploadSuccess.observe(viewLifecycleOwner, EventObserver { success ->
+            if (success) {
                 navigateToListFragment()
             }
         })
 
-        return binding.root
+//        status = (binding.officerStatusDrop.editText as AutoCompleteTextView).apply {
+//                setAdapter(setDropDownAdapter(requireContext(), viewModel.officerStatus))
+//        }
+//
+//        level = (binding.officerLevelDrop.editText as AutoCompleteTextView).apply {
+//                setAdapter(setDropDownAdapter(requireContext(), viewModel.officerLevel))
+//        }
     }
 
     override fun onDestroyView() {
@@ -86,12 +94,14 @@ class CreateUpdateOfficerFragment : Fragment() {
     /**
      * Handle get text from the View.
      */
-    private fun saveData(status: String?, level: String?) {
+    private fun onSaveData() {
 
+        val level = officer_level_drop.editText
         val username = officer_username_input.editText
         val password = officer_password_input.editText
         val name = officer_name_input.editText
         val phone = officer_phone_input.editText
+        val status = officer_status_drop.editText
 
         when {
             username?.text.isNullOrEmpty() -> {
@@ -107,28 +117,23 @@ class CreateUpdateOfficerFragment : Fragment() {
                 phone?.error = getString(R.string.must_filled_field)
             }
             else -> {
-                viewModel.onNewOfficerData(
-                    level!!,
+                viewModel.onPrepareUploadData(
+                    level?.text.toString(),
                     username?.text.toString(),
                     password?.text.toString(),
                     name?.text.toString(),
                     phone?.text.toString(),
-                    status!!
+                    status?.text.toString()
                 )
-                showDialog(true)
-                viewModel.restartClickState()
             }
         }
     }
 
     private fun showDialog(state: Boolean) {
-        // Disabled the button and showing the loading dialog
         if (state) {
-            button.isEnabled = false
             dialog.showLoadingDialog()
         } else {
             dialog.hideLoadingDialog()
-            button.isEnabled = true
         }
     }
 
@@ -137,7 +142,6 @@ class CreateUpdateOfficerFragment : Fragment() {
             CreateUpdateOfficerFragmentDirections
                 .actionCreateUpdateOfficerFragmentToOfficerFragment()
         findNavController().navigate(action)
-        viewModel.restartCreationState()
     }
 
 }

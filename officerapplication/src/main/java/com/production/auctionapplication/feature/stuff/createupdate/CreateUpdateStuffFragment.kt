@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -39,6 +38,8 @@ class CreateUpdateStuffFragment : Fragment() {
         binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_create_update_stuff, container, false)
 
+        application = requireActivity().application
+
         // setup loading dialog
         dialog = LoadingDialog(requireActivity(), application)
 
@@ -47,8 +48,6 @@ class CreateUpdateStuffFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        application = requireActivity().application
 
         val viewModelFactory =
             ViewModelFactory(application)
@@ -60,26 +59,31 @@ class CreateUpdateStuffFragment : Fragment() {
 
         // Observing the category name, then set the dropdown item when the
         // value isn't null.
-        viewModel.categoryName.observe(viewLifecycleOwner, Observer { categoryData ->
-            if (categoryData != null) {
-                category = (binding.stuffCategoryDrop.editText as AutoCompleteTextView).apply {
-                    setAdapter(setDropDownAdapter(requireContext(), categoryData))
-                }
+        viewModel.categoryName.observe(viewLifecycleOwner, EventObserver { categoryData ->
+            category = (binding.stuffCategoryDrop.editText as AutoCompleteTextView).apply {
+                setAdapter(setDropDownAdapter(requireContext(), categoryData))
             }
         })
 
         // observing click state
-        viewModel.clickState.observe(viewLifecycleOwner, EventObserver {
-            if (it) {
+        viewModel.clickState.observe(viewLifecycleOwner, EventObserver { clicked ->
+            if (clicked) {
                 saveData(category.text.toString())
                 hideSoftKeyboard(requireActivity())
             }
         })
 
-        // Observing success create state
-        viewModel.uploadSuccess.observe(viewLifecycleOwner, EventObserver {
-            if (it) {
+        viewModel.showDialog.observe(viewLifecycleOwner, EventObserver { show ->
+            if (show) {
+                showDialog(true)
+            } else if (!show) {
                 showDialog(false)
+            }
+        })
+
+        // Observing success create state
+        viewModel.uploadSuccess.observe(viewLifecycleOwner, EventObserver { success ->
+            if (success) {
                 navigateToListFragment()
             }
         })
@@ -107,11 +111,10 @@ class CreateUpdateStuffFragment : Fragment() {
                 description?.error = getString(R.string.must_filled_field)
             }
             else -> {
-                viewModel.uploadState(
-                    args.stuff?.stuffId.toString(),
+                viewModel.onPrepareUploadData(
                     name?.text.toString(),
-                    category,
                     price?.text.toString(),
+                    category,
                     description?.text.toString()
                 )
             }
@@ -132,7 +135,5 @@ class CreateUpdateStuffFragment : Fragment() {
             dialog.hideLoadingDialog()
         }
     }
-
-
 
 }

@@ -23,8 +23,8 @@ data class CreateUpdateCategoryResponse(
 @Parcelize
 data class CategoryResponse(
     @Json(name = "category_id") var categoryId: Int?,
-    @Json(name = "category_name") var categoryName: String?,
-    @Json(name = "category_description") var categoryDescription: String?,
+    @Json(name = "category_name") var categoryName: String,
+    @Json(name = "category_description") var categoryDescription: String,
     @Json(name = "image_url") var imageUrl: String?
 ) : Parcelable
 

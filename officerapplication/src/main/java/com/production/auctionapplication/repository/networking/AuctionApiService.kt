@@ -9,6 +9,7 @@ import com.production.auctionapplication.repository.networking.models.officer.Re
 import com.production.auctionapplication.repository.networking.models.stuff.CreateUpdateStuffResponse
 import com.production.auctionapplication.repository.networking.models.stuff.RequestAllStuffResponse
 import kotlinx.coroutines.Deferred
+import retrofit2.Call
 import retrofit2.http.*
 
 interface AuctionApiService {
@@ -42,11 +43,25 @@ interface AuctionApiService {
         @Field("image") stuffImage: String?
     ): Deferred<CreateUpdateStuffResponse>
 
+    @FormUrlEncoded
+    @PUT("v1/stuff/{id}")
+    fun updateStuffAsync(
+        @Query("token") token: String?,
+        @Path("id") stuffId: String,
+        @Field("category_id") categoryId: Int?,
+        @Field("stuff_name") stuffName: String,
+        @Field("started_price") startedPrice: String,
+        @Field("description") description: String
+    ): Deferred<CreateUpdateStuffResponse>
+
     /**
      * Category section
      */
     @GET("v1/category")
     fun getAllCategoryAsync(): Deferred<RequestAllCategoryResponse>
+
+    @GET("v1/category")
+    fun getAllCategorySync() : Call<RequestAllCategoryResponse>
 
     @GET("v1/category/{id}")
     fun getDetailCategoryAsync(
@@ -66,7 +81,7 @@ interface AuctionApiService {
     @FormUrlEncoded
     @PUT("v1/category/{id}")
     fun updateCategoryAsync(
-        @Path("id") categoryIdSend: String,
+        @Path("id") categoryId: String,
         @Query("token") token: String?,
         @Field("category_name") categoryName: String,
         @Field("category_description") categoryDescription: String

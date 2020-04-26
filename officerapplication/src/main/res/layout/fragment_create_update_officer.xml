@@ -16,9 +16,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:padding="@dimen/normal_spacing">
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/officer_username_input"
                 android:layout_width="match_parent"
@@ -35,7 +34,6 @@
                     android:layout_height="wrap_content"
                     android:inputType="text"/>
             </com.google.android.material.textfield.TextInputLayout>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/officer_password_input"
                 android:layout_width="match_parent"
@@ -52,7 +50,6 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"/>
             </com.google.android.material.textfield.TextInputLayout>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/officer_name_input"
                 android:layout_width="match_parent"
@@ -69,7 +66,6 @@
                     android:layout_height="wrap_content"
                     android:inputType="text"/>
             </com.google.android.material.textfield.TextInputLayout>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/officer_phone_input"
                 android:layout_width="match_parent"
@@ -86,7 +82,6 @@
                     android:layout_height="wrap_content"
                     android:inputType="phone"/>
             </com.google.android.material.textfield.TextInputLayout>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/officer_status_drop"
                 android:layout_width="175dp"
@@ -100,9 +95,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:hint="@string/officer_status"/>
+                    android:hint="@string/officer_status"
+                    app:set_list_items="@{viewModel.officerStatusList}"/>
             </com.google.android.material.textfield.TextInputLayout>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/officer_level_drop"
                 android:layout_width="175dp"
@@ -116,21 +111,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:hint="@string/officer_level_hint"/>
+                    android:hint="@string/officer_level_hint"
+                    app:set_list_items="@{viewModel.officerLevelList}"/>
             </com.google.android.material.textfield.TextInputLayout>
-
             <Button
                 android:id="@+id/create_officer_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/very_long_spacing"
-                android:text="@string/create_text"
-                android:onClick="@{() -> viewModel.buttonClick()}"
+                android:text="@{viewModel.buttonText}"
+                android:onClick="@{() -> viewModel.onClickAction()}"
+                android:enabled="@{viewModel.buttonEnable}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/officer_level_drop"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
-
+                app:layout_constraintBottom_toBottomOf="parent"
+                style="@style/ButtonAppearance.Confirm"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.core.widget.NestedScrollView>
 
 </layout>

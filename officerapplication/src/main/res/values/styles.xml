@@ -68,6 +68,7 @@
 
     <style name="ButtonAppearance.Confirm" parent="ButtonAppearance.Reload">
         <item name="textAllCaps">true</item>
+        <item name="android:layout_marginBottom">@dimen/normal_spacing</item>
     </style>
 
     <style name="AddFabStyle">

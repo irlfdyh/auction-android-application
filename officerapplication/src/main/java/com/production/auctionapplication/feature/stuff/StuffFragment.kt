@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -70,7 +69,7 @@ class StuffFragment : Fragment() {
     private fun navigateToUpdateStuffData(args: StuffResponse?) {
         val action = StuffFragmentDirections
             .actionStuffFragmentToCreateUpdateStuffFragment(
-                getString(R.string.create_data_text), args
+                getString(R.string.update_data_text), args
             )
         findNavController().navigate(action)
     }

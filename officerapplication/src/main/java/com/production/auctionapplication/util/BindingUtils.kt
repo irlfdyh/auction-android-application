@@ -1,5 +1,6 @@
 package com.production.auctionapplication.util
 
+import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -86,4 +87,9 @@ fun EditText.bindEditText(data: String?) {
     data?.let {
         this.setText(it.toString())
     }
+}
+
+@BindingAdapter("set_list_items")
+fun AutoCompleteTextView.bindListItems(items: List<String>) {
+    this.setAdapter(setDropDownAdapter(this.context, items))
 }

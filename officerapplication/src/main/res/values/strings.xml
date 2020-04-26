@@ -27,6 +27,7 @@
     <string name="category_name_hint">Nama Kategori</string>
     <string name="category_description_hint">Deskripsi Kategori</string>
     <string name="create_text">Buat</string>
+    <string name="update_text">Ubah</string>
     <string name="must_filled_field">Field ini harus di isi…!!!</string>
     <string name="phone">No. Telepon</string>
     <string name="officer_status">Status</string>
@@ -47,6 +48,9 @@
     <string name="cto_text">Kayanya belum dapet respon dari server nih...</string>
     <string name="no_connection_text">kayanya lagi ga bisa nyambung ke server nih...</string>
     <string name="requset_failed_message">Tidak ada respon dari server</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

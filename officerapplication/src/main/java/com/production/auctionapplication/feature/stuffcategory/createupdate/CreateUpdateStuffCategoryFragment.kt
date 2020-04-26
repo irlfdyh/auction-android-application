@@ -112,8 +112,7 @@ class CreateUpdateStuffCategoryFragment : Fragment() {
                 description?.error = getString(R.string.must_filled_field)
             }
             else -> {
-                viewModel.uploadState(
-                    args.category?.categoryId.toString(),
+                viewModel.onPrepareUploadData(
                     name?.text.toString(),
                     description?.text.toString()
                 )

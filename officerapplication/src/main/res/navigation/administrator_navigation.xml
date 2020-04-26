@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_stuffFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
+        <action
+            android:id="@+id/action_stuffFragment_to_placeholderCreateUpdateStuffFragment"
+            app:destination="@id/placeholderCreateUpdateStuffFragment" />
     </fragment>
     <fragment
         android:id="@+id/officerFragment"
@@ -67,7 +70,7 @@
     <fragment
         android:id="@+id/createUpdateOfficerFragment"
         android:name="com.production.auctionapplication.feature.administrator.officer.createupdate.CreateUpdateOfficerFragment"
-        android:label="CreateUpdateOfficerFragment"
+        android:label="{title}"
         tools:layout="@layout/fragment_create_update_officer">
         <argument
             android:name="title"
@@ -87,7 +90,7 @@
     <fragment
         android:id="@+id/createUpdateStuffFragment"
         android:name="com.production.auctionapplication.feature.stuff.createupdate.CreateUpdateStuffFragment"
-        android:label="CreateUpdateStuffFragment"
+        android:label="{title}"
         tools:layout="@layout/fragment_create_update_stuff">
         <argument
             android:name="title"
@@ -118,5 +121,28 @@
         <action
             android:id="@+id/action_dashboardFragment_to_stuffCategoryFragment"
             app:destination="@id/stuffCategoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/placeholderCreateUpdateStuffFragment"
+        android:name="com.production.auctionapplication.feature.stuff.createupdate.PlaceholderCreateUpdateStuffFragment"
+        android:label="[title]"
+        tools:layout="@layout/fragment_placeholder_create_update_stuff">
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="false"/>
+        <argument
+            android:name="stuff"
+            app:argType="com.production.auctionapplication.repository.StuffDataTransfer"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_placeholderCreateUpdateStuffFragment_to_createUpdateStuffFragment"
+            app:destination="@id/createUpdateStuffFragment" />
+        <action
+            android:id="@+id/action_placeholderCreateUpdateStuffFragment_to_stuffFragment"
+            app:destination="@id/stuffFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/stuffFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

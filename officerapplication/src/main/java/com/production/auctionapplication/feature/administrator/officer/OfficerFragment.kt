@@ -66,7 +66,7 @@ class OfficerFragment : Fragment() {
         val action =
             OfficerFragmentDirections
                 .actionOfficerFragmentToCreateUpdateOfficerFragment(
-                    getString(R.string.create_data_text), args)
+                    getString(R.string.update_data_text), args)
         findNavController().navigate(action)
     }
 
